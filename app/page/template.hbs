@@ -1,13 +1,15 @@
-<div>
-{{page.title}}
-</div>
-
-<div>
-{{page.body}}
-</div>
+<h1>Page</h1>
 
 <div>
 {{#link-to 'pages'}}Back to pages{{/link-to}}
+</div>
+
+<div>
+{{model.title}}
+</div>
+
+<div>
+{{model.body}}
 </div>
 
 {{outlet}}
