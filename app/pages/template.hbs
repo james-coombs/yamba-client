@@ -1,0 +1,10 @@
+<h1>Pages</h1>
+
+<ul>
+{{#each model as |page|}}
+<!-- data binding, pass product object along -->
+  <li><h4>page title: {{page.title}}</h4></li>
+{{/each}}
+</ul>
+
+{{outlet}}
