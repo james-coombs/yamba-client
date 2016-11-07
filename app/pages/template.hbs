@@ -2,9 +2,7 @@
 
 <ul>
 {{#each model as |page|}}
-<!-- data binding, pass product object along -->
-  <li><h4>{{#link-to 'page' page}}page title: {{page.title}}{{/link-to}}</h4></li>
-  <li><h4>{{#link-to 'page' page}} Name: {{page.title}}{{/link-to}}</h4></li>
+  <li><h4>{{#link-to 'page' page}} Title: {{page.title}}{{/link-to}}</h4></li>
 {{/each}}
 </ul>
 

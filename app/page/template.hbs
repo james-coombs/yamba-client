@@ -1,8 +1,4 @@
-<h1>Page</h1>
-
-<div>
-{{#link-to 'pages'}}Back to pages{{/link-to}}
-</div>
+<h1>{{model.title}}</h1>
 
 <div>
 {{model.title}}
@@ -10,6 +6,10 @@
 
 <div>
 {{model.body}}
+</div>
+
+<div>
+{{#link-to 'pages'}}Back to pages{{/link-to}}
 </div>
 
 {{outlet}}
