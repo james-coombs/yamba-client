@@ -16,6 +16,7 @@ Router.map(function () {
 
   this.route('servers');
   this.route('server', { path: '/servers/:server_id' });
+  this.route('server/edit', { path: 'servers/:server_id/edit' });
 });
 
 export default Router;

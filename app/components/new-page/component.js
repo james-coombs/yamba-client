@@ -3,9 +3,7 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   newPage: {
     title: null,
-    body: null,
-    code: null,
-    image: null,
+    body: null
   },
 
   actions: {

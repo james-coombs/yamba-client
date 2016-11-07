@@ -1,15 +1,9 @@
 <h1>{{model.name}}</h1>
 
-<div>
-  <ul>
-  {{model.pages}}
-  </ul>
-</div>
+{{page-server server=model deletePage='deletePage' createPage='createPage'}}
 
 <div>
 {{#link-to 'servers'}}Back to servers{{/link-to}}
 </div>
 
-
-{{page-server server=model deletePage='deletePage' createPage='createPage'}}
 {{outlet}}

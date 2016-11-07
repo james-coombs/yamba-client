@@ -6,6 +6,13 @@ export default Ember.Route.extend({
   },
 
   actions: {
+    deletePage (page) {
+      page.destroyRecord();
+    },
 
+    createPage (data) {
+      let page = this.get('store').createRecord('page', data);
+      page.save();
+    },
   }
 });

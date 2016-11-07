@@ -5,8 +5,9 @@ export default Ember.Component.extend({
     delete () {
       this.sendAction('delete', this.get('server'));
     },
+
     edit () {
        this.sendAction('edit', this.get('server'));
-    },
+    }
   },
 });
