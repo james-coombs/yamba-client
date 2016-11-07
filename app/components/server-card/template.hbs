@@ -1,0 +1,16 @@
+<div class="col-md-4 collection-card">
+
+  {{#link-to 'server' server}}<h2>{{server.name}}</h2>{{/link-to}}
+  <p>{{server.name}}</p>
+
+  <button class="btn btn-xs btn-danger" {{action 'delete'}}>
+     Delete
+  </button>
+
+  <button class="btn btn-xs btn-warning" {{action 'edit'}}>
+     Edit
+  </button>
+
+</div>
+
+{{yield}}

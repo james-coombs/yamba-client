@@ -1,0 +1,12 @@
+<form {{action 'createServer' on='submit'}}>
+  {{input placeholder='New Server Name'
+          class='input-group form-control'
+          value=newServer.name}}
+
+  <button type="submit" name="submit" class="btn btn-primary">
+    Create New Server
+  </button>
+
+</form>
+
+{{yield}}

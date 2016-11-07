@@ -1,0 +1,12 @@
+<h2>{{server.name}}</h2>
+
+   {{#each server.pages as |page|}}
+
+       {{page-server/page page=page
+                          delete='deletePage'}}
+
+   {{/each}}
+
+{{new-page-form createPage='createPage' server=server}}
+
+{{yield}}

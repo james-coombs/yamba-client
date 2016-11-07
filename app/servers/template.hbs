@@ -1,9 +1,15 @@
 <h1>Servers</h1>
 
-<ul>
+{{!-- <ul>
 {{#each model as |server|}}
   <li><h4>{{#link-to 'server' server}} Name: {{server.name}}{{/link-to}}</h4></li>
 {{/each}}
-</ul>
+</ul> --}}
+
+{{#each model as |server|}}
+  {{server-card server=server delete='deleteServer' edit='editServer'}}
+{{/each}}
+
+{{new-server createServer='createServer' server=server}}
 
 {{outlet}}

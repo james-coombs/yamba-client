@@ -1,0 +1,12 @@
+<form {{action 'save' on='submit'}}>
+  {{input placeholder='Change Server Name'
+          class='input-group form-control'
+          value=editServer.name}}
+
+  <button type="submit" name="submit" class="btn btn-primary">
+    Edit Server
+  </button>
+
+</form>
+
+{{yield}}

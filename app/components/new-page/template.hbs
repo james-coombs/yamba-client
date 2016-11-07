@@ -1,0 +1,16 @@
+<form {{action 'createPage' on='submit'}}>
+  {{input placeholder='New Page Title'
+          class='input-group form-control'
+          value=newPage.title}}
+
+  {{input placeholder='New Page Body'
+            class='input-group form-control'
+            value=newPage.body}}
+
+  <button type="submit" name="submit" class="btn btn-primary">
+    Create New Page
+  </button>
+
+</form>
+
+{{yield}}
