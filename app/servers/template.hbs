@@ -1,0 +1,9 @@
+<h1>Servers</h1>
+
+<ul>
+{{#each model as |server|}}
+  <li><h4>{{#link-to 'server' server}} Name: {{server.name}}{{/link-to}}</h4></li>
+{{/each}}
+</ul>
+
+{{outlet}}

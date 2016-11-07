@@ -1,0 +1,13 @@
+<h1>{{model.name}}</h1>
+
+<div>
+  <ul>
+  {{model.pages}}
+  </ul>
+</div>
+
+<div>
+{{#link-to 'servers'}}Back to servers{{/link-to}}
+</div>
+
+{{outlet}}

@@ -13,8 +13,10 @@ Router.map(function () {
 
   // this.route('pages');
   // this.route('page', { path: '/pages/:page_id' });
-  this.route('pages');
-  this.route('page', { path: '/pages/:page_id' });
+  //  this.route('pages');
+  // this.route('page', { path: '/pages/:page_id' });
+  this.route('servers');
+  this.route('server', { path: '/servers/:server_id' });
 });
 
 export default Router;
