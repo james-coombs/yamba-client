@@ -9,15 +9,13 @@ export default Ember.Component.extend({
     createServer() {
       let data = this.get('newServer');
 
-      if (this.get('data.name') !== null)
+      if (this.get('data') !== null)
 
       {
         data.server = this.get('server');
         this.sendAction('createServer', data);
+        console.log(this);
       }
-
-      this.set('newPage.title', null);
-      this.set('newPage.body', null);
-    },
+    }
   }
 });

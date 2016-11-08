@@ -2,8 +2,10 @@
 
 <p>{{page.body}}</p>
 
+{{#if page.canBeDeleted}}
 <button class="btn btn-xs btn-danger" {{action 'delete'}}>
    Delete
 </button>
+{{/if}}
 
 {{yield}}

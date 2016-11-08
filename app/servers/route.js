@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Route.extend({
-  model() {
+  model () {
     return this.get('store').findAll('server');
   },
 
@@ -10,12 +10,12 @@ export default Ember.Route.extend({
       server.destroyRecord();
     },
 
-    createServer(data) {
+    createServer (data) {
       let server = this.get('store').createRecord('server', data);
       server.save();
     },
 
-    editServer(server) {
+    editServer (server) {
       this.transitionTo('server/edit', server);
     },
   }
