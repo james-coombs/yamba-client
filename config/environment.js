@@ -49,7 +49,7 @@ module.exports = function (environment) {
   }
 
   if (environment === 'production') {
-    ENV.rootURL = '/';
+    ENV.rootURL = '/wember_client';
     ENV.locationType = 'hash';
     ENV.apiHost = 'https://wember.herokuapp.com';
   }
