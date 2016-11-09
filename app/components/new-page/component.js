@@ -1,6 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
+  flashMessages: Ember.inject.service(),
   newPage: {
     title: null,
     body: null
@@ -8,18 +9,16 @@ export default Ember.Component.extend({
 
   actions: {
     createPage() {
-      let data = this.get('newPage');
-
-      if (this.get('data.title') !== null &&
-        this.get('data.body') !== null)
-
-      {
-        data.server = this.get('server');
-        this.sendAction('createPage', data);
+      if (this.get('newPage.title') && this.get('newPage.body') !== null) {
+        let page = this.get('newPage');
+        page.server = this.get('server');
+        this.sendAction('createPage', page);
+        this.set('newPage.title', null);
+        this.set('newPage.body', null);
+      } else {
+        this.get('flashMessages')
+          .danger('Please give your new page a title & body.');
       }
-
-      this.set('newPage.title', null);
-      this.set('newPage.body', null);
     },
   }
 });

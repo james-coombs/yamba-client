@@ -1,11 +1,13 @@
-<h4>{{page.title}}</h4>
+<div class="col-md-4 page">
+<h3>{{page.title}}</h3>
 
-<p>{{page.body}}</p>
+<h2>{{page.body}}</h2>
 
 {{#if page.canBeDeleted}}
 <button class="btn btn-xs btn-danger" {{action 'delete'}}>
    Delete
 </button>
 {{/if}}
+</div>
 
 {{yield}}
