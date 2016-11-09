@@ -1,4 +1,4 @@
-<form {{action 'createPage' on='submit'}}>
+{{!-- <form {{action 'createPage' on='submit'}}>
   {{input placeholder='New Page Title'
           class='input-group form-control'
           value=newPage.title}}
@@ -11,6 +11,18 @@
     Create New Page
   </button>
 
+</form> --}}
+
+<div class="col-md-12 new-page">
+<form enctype="multipart/form-data" id="new-page-form" {{ action 'createPage' on='submit' }}>
+  <fieldset>
+    <legend>Add New Page</legend>
+    <input type="text" class="form-control" name="page[title]" placeholder="Page Title">
+    <input type="text" class="form-control" name="page[body]" placeholder="Page Body">
+    <input type="file" name="page[image]" value="Upload Image">
+    <input type="submit" class="btn btn-success" name="submit" value="Create Page">
+  </fieldset>
 </form>
+</div>
 
 {{yield}}

@@ -5,8 +5,8 @@ export default Ember.Component.extend({
     deletePage (page) {
       this.sendAction('deletePage', page);
     },
-    createPage (page) {
-      this.sendAction('createPage', page);
+    createPage (newPage) {
+      this.sendAction('createPage', newPage);
     },
   },
 });

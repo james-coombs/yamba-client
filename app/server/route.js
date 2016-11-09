@@ -10,9 +10,10 @@ export default Ember.Route.extend({
       page.destroyRecord();
     },
 
-    createPage (page) {
-      let newPage = this.get('store').createRecord('page', page);
-      newPage.save();
+    createPage (newPage) {
+      // let createdPage = this.get('store').createRecord('page', newPage);
+      // createdPage.save();
+       console.log(newPage = " new Page");
     },
   }
 });
