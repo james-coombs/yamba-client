@@ -3,8 +3,8 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   flashMessages: Ember.inject.service(),
   newPage: {
-    title: null,
-    body: null
+    // title: null,
+    // body: null
   },
 
   actions: {

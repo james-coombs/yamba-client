@@ -19,6 +19,7 @@
     <legend>Add New Page</legend>
     <input type="text" class="form-control" name="page[title]" placeholder="Page Title">
     <input type="text" class="form-control" name="page[body]" placeholder="Page Body">
+    <input type="hidden" name="page[server_id]" value="{{server.id}}">
     <input type="file" name="page[image]" value="Upload Image">
     <input type="submit" class="btn btn-success" name="submit" value="Create Page">
   </fieldset>
