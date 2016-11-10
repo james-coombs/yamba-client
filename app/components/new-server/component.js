@@ -14,7 +14,7 @@ export default Ember.Component.extend({
         this.set('newServer.name', null);
       } else {
         this.get('flashMessages')
-          .danger('Please name your new server.');
+          .danger('Please name your new Board.');
       }
     }
   }
