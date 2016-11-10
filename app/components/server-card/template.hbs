@@ -1,6 +1,6 @@
 <div class="col-md-4 server-card">
 
-  {{#link-to 'server' server}}<h2>{{server.name}}</h2>{{/link-to}}
+  {{#link-to 'server' server}}<h2 class="serverCardServername">{{server.name}}</h2>{{/link-to}}
   {{#if server.canBeDeleted}}
   <button class="btn btn-xs btn-danger" {{action 'delete'}}>
      Delete

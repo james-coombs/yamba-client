@@ -1,7 +1,10 @@
-<div class="col-md-4 page">
-<h3>{{page.title}}</h3>
+<div class="col-md-12 page">
+<h2>{{page.title}}</h2>
+{{!-- {{#if page.attached_image}} --}}
+<img class="pageImage" src="{{page.image_url}}">
+{{!-- {{/if}} --}}
+<h3>{{page.body}}</h3>
 
-<h2>{{page.body}}</h2>
 
 {{#if page.canBeDeleted}}
 <button class="btn btn-xs btn-danger" {{action 'delete'}}>
