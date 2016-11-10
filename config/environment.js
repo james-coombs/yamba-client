@@ -3,7 +3,7 @@
 module.exports = function (environment) {
   'use strict';
   const ENV = {
-    modulePrefix: 'wember-client',
+    modulePrefix: 'wember_client',
     environment: environment,
     rootURL: '/',
     locationType: 'auto',
