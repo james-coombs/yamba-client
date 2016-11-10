@@ -22,7 +22,7 @@ export default Ember.Component.extend({
     createPage() {
       let newPage = new FormData(document.getElementById('new-page-form')); // Ember jQuery to find the form by it's id.
       this.sendAction('createPage', newPage); // Grabs the newMovie object which has been converted into FormData and sends it up to the route template
-      document.getElementById("new-page-form").reset();
+      // document.getElementById("new-page-form").reset();
       this.set('newPage', null); // Resets the newMovie Object
     }
   }
