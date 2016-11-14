@@ -49,9 +49,9 @@ module.exports = function (environment) {
   }
 
   if (environment === 'production') {
-    ENV.rootURL = '/wember_client';
+    ENV.rootURL = '/yamba-client';
     ENV.locationType = 'hash';
-    ENV.apiHost = 'https://wember.herokuapp.com';
+    ENV.apiHost = 'https://yamba-api.herokuapp.com';
   }
 
   return ENV;
