@@ -1,0 +1,12 @@
+<h2 class="serverTitle">Board: {{board.name}}</h2>
+
+   {{#each board.pages as |page|}}
+
+    {{boards-pages/pages page=page
+                       delete='deletePage'}}
+
+   {{/each}}
+
+{{new-page createPage='createPage' board=board}}
+
+{{yield}}

@@ -7,5 +7,5 @@ export default DS.Model.extend({
   attached_image: DS.attr('boolean'),
   image_file_name: DS.attr('string'),
   canBeDeleted: DS.attr('boolean'),
-  server: DS.belongsTo('server')
+  board: DS.belongsTo('board')
 });

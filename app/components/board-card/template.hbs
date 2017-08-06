@@ -1,0 +1,16 @@
+<div class="col-md-4 board-card">
+
+  {{#link-to 'board' board}}<h2 class="serverCardServername">{{board.name}}</h2>{{/link-to}}
+  {{#if board.canBeDeleted}}
+  <button class="btn btn-xs btn-danger" {{action 'delete'}}>
+     Delete
+  </button>
+
+  <button class="btn btn-xs btn-warning" {{action 'edit'}}>
+     Rename
+  </button>
+    {{/if}}
+
+</div>
+
+{{yield}}

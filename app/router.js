@@ -14,9 +14,9 @@ Router.map(function () {
   // this.route('pages');
   // this.route('page', { path: '/pages/:page_id' });
 
-  this.route('servers');
-  this.route('server', { path: '/servers/:server_id' });
-  this.route('server/edit', { path: 'servers/:server_id/edit' });
+  this.route('boards');
+  this.route('board', { path: '/boards/:server_id' });
+  this.route('board/edit', { path: 'boards/:server_id/edit' });
 });
 
 export default Router;
