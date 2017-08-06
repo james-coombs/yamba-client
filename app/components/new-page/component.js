@@ -8,17 +8,17 @@ export default Ember.Component.extend({
   },
 
   actions: {
-    createPage() {
-      if (this.get('newPage.title') && this.get('newPage.body') !== null) {
-        let newPage = this.get('newPage');
-        newPage.board = this.get('board');
-        this.sendAction('createPage', newPage);
-        this.set('newPage', null);
-      } else {
-        this.get('flashMessages')
-          .danger('Please give your new page a title & body.');
-      }
-    },
+    // createPage() {
+    //   if (this.get('newPage.title') && this.get('newPage.body') !== null) {
+    //     let newPage = this.get('newPage');
+    //     newPage.board = this.get('board');
+    //     this.sendAction('createPage', newPage);
+    //     this.set('newPage', null);
+    //   } else {
+    //     this.get('flashMessages')
+    //       .danger('Please give your new page a title & body.');
+    //   }
+    // },
     // createPage() {
     //   if (this.get('newPage.title') && this.get('newPage.body') !== null) {
     //     let newPage = this.get('newPage');
