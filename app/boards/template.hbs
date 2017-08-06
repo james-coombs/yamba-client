@@ -1,9 +1,9 @@
 <h1 class="allServers">Boards</h1>
 
 {{#each model as |board|}}
-  {{board-card board=board delete='deleteServer' edit='editServer'}}
+  {{board-card board=board delete='deleteServer' edit='editBoard'}}
 {{/each}}
 
-{{new-board createServer='createServer' board=board}}
+{{new-board createBoard='createBoard' board=board}}
 
 {{outlet}}

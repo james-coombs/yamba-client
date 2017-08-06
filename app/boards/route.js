@@ -10,12 +10,12 @@ export default Ember.Route.extend({
       board.destroyRecord();
     },
 
-    createServer(board) {
+    createBoard(board) {
       let createdServer = this.get('store').createRecord('board', board);
       createdServer.save();
     },
 
-    editServer(board) {
+    editBoard(board) {
       this.transitionTo('board/edit', board);
     },
   }
