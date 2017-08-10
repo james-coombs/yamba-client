@@ -1,7 +1,7 @@
 {
-  "name": "wember_client",
+  "name": "yamba_client",
   "version": "0.0.0",
-  "description": "ember auth training",
+  "description": "Yet another message board app",
   "private": true,
   "directories": {
     "doc": "doc",

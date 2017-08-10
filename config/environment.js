@@ -3,7 +3,7 @@
 module.exports = function (environment) {
   'use strict';
   const ENV = {
-    modulePrefix: 'wember_client',
+    modulePrefix: 'yamba_client',
     environment: environment,
     rootURL: '/',
     locationType: 'auto',

@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import AjaxService from 'ember-ajax/services/ajax';
 
-import ENV from 'wember_client/config/environment';
+import ENV from 'yamba_client/config/environment';
 
 export default AjaxService.extend({
   host: ENV.apiHost,

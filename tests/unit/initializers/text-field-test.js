@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import TextFieldInitializer from 'wember_client/initializers/text-field';
+import TextFieldInitializer from 'yamba_client/initializers/text-field';
 import { module, test } from 'qunit';
 
 let application;
