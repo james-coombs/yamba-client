@@ -5,20 +5,43 @@
   text-align: center;
 }
 
-.serverTitle {
+.boardTitle {
   text-align: center;
 }
 
-.allServers {
+.allBoards {
   text-align: center;
 }
 
 .col-md-12 {
-  border: .25px solid gray;
+  // border: .25px solid gray;
   background-color: #f9f9f7;
 }
 
 .col-md-4 {
-  border: .25px solid gray;
+  // border: .25px solid gray;
   background-color: #f9f9f7;
+}
+
+.new-page {
+  border-radius: 4px;
+  padding: 3px 5px;
+  margin-top: 5px;
+}
+
+.page {
+  border-radius: 4px;
+  padding: 3px 5px;
+  margin-bottom: 5px;
+}
+
+.page img {
+  display:block;
+  margin:auto;
+}
+
+
+.navbar-default {
+    border: none;
+    box-shadow: none
 }

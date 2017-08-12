@@ -18,9 +18,12 @@
   <fieldset>
     <legend>Add New Page</legend>
     <input type="text" class="form-control" name="page[title]" placeholder="Page Title">
-    <input type="text" class="form-control" name="page[body]" placeholder="Page Body">
+    <br>
+    <textarea class="form-control" name="page[body]" placeholder="Page Body" rows="5" cols="5"></textarea>
+    <br>
     <input type="hidden" name="page[board_id]" value="{{board.id}}">
     <input type="file" name="page[image]" value="Upload Image">
+    <br>
     <input type="submit" class="btn btn-success" name="submit" value="Create Page">
   </fieldset>
 </form>

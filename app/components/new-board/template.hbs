@@ -1,12 +1,12 @@
+<br>
 <form {{action 'createBoard' on='submit'}}>
   {{input placeholder='New Board Name'
           class='input-group form-control'
           value=newBoard.name}}
-
-  <button type="submit" name="submit" class="btn btn-primary">
-    Create New Board
-  </button>
-
+<br>
+<button type="submit" name="submit" class="btn btn-primary">
+  Create New Board
+</button>
 </form>
 
 {{yield}}

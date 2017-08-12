@@ -1,16 +1,18 @@
 <div class="col-md-12 page">
-<h2>{{page.title}}</h2>
-{{!-- {{#if page.attached_image}} --}}
-<img class="pageImage" src="{{page.image_url}}">
-{{!-- {{/if}} --}}
-<h3>{{page.body}}</h3>
+  {{#if page.canBeDeleted}}
+    <button class="btn btn-xs btn-danger pull-right" {{action 'delete'}}>
+       Delete
+    </button>
+  {{/if}}
+  <p class="pull-left">{{page.id}}</p>
+  <div class="text-center">
+  {{!-- {{#if page.image_url}} --}}
+    <img class="pageImage img-responsive " src="{{page.image_url}}">
+  {{!-- {{/if}} --}}
 
-
-{{#if page.canBeDeleted}}
-<button class="btn btn-xs btn-danger" {{action 'delete'}}>
-   Delete
-</button>
-{{/if}}
+  <h3 class="">{{page.title}}</h3>
+  <p class="">{{page.body}}</p>
+  </div>
 </div>
 
 {{yield}}
