@@ -15,7 +15,7 @@
 
 .col-md-12 {
   // border: .25px solid gray;
-  background-color: #f9f9f7;
+  //background-color: #f9f9f7;
 }
 
 .col-md-4 {
@@ -24,12 +24,14 @@
 }
 
 .new-page {
+  background-color: #f9f9f7;
   border-radius: 4px;
   padding: 3px 5px;
   margin-top: 5px;
 }
 
 .page {
+  background-color: #f9f9f7;
   border-radius: 4px;
   padding: 3px 5px;
   margin-bottom: 5px;
@@ -48,4 +50,15 @@
 
 .btn {
   border: none;
+}
+
+.board-card {
+  background-color: #f9f9f7;
+  border-radius: 4px;
+  margin-bottom: 5px;
+}
+
+.users {
+  background-color: #f9f9f7;
+  border-radius: 4px;
 }
