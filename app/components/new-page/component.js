@@ -3,11 +3,13 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   flashMessages: Ember.inject.service(),
   newPage: {
+    // Old attributes:
     // title: null,
     // body: null
   },
 
   actions: {
+    // Old method:
     // createPage() {
     //   if (this.get('newPage.title') && this.get('newPage.body') !== null) {
     //     let newPage = this.get('newPage');

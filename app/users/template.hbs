@@ -1,7 +1,11 @@
 <h2>Users</h2>
-
 <ul>
 {{#each model as |user|}}
-  <li>{{user.email}}</li>
+{{log 'user is:' user}}
+{{log 'page is:' user.pages}}
+{{#each user.pages as |page|}}{{page.id}}{{/each}}
+  <li>{{user.id}} | {{user.email}}</li>
+
+  {{#each user.pages as |page|}}{{user.page.id}}{{/each}}
 {{/each}}
 </ul>
