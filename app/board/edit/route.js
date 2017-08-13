@@ -6,7 +6,7 @@ export default Ember.Route.extend({
   },
 
   actions: {
-    saveServer(board) {
+    saveBoard(board) {
       board.save()
         .then(() => this.transitionTo('boards'));
     },

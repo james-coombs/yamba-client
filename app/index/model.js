@@ -4,5 +4,4 @@ export default DS.Model.extend({
   email: DS.attr('string'),
   pages: DS.attr(),
   boards: DS.attr(),
-  index: DS.attr(),
 });

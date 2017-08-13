@@ -9,4 +9,5 @@ export default DS.Model.extend({
   canBeDeleted: DS.attr('boolean'),
   board: DS.belongsTo('board'),
   user: DS.attr(),
+  created_at: DS.attr('string'),
 });
