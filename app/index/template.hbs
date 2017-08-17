@@ -1,27 +1,13 @@
 <div class="col-md-12 text-center index ">
-<h1>INDEXXXXXX</h1>
+<h3>Create Boards for your favorite topics, and fill them with pages</h3>
+<h4>Recently created Pages:</h4>
+<h6>
 {{#each model as |index|}}
-{{index.pages}}
-<h3>Recent pages: {{#each index.pages as |page|}}{{page.created_at}}, {{/each}}</h3>
+  {{#each index.pages as |page|}}
+    {{#link-to 'board' page.board_id}}{{page.created_at}}{{/link-to}}<br>
+  {{/each}}
 {{/each}}
+</h6>
 </div>
 
-{{!-- <div class="col-md-12 users">
-<h2>Users</h2>
-{{#each model as |user|}}
-<ul>
-  <li>
-    <li>ID: {{user.id}}</li>
-      <ul>
-        <li>email: {{user.email}}</li>
-       <li>pages: {{#each user.pages as |page|}}{{page.id}}, {{/each}}</li>
-        <li>boards: {{#each user.boards as |board|}}{{board.name}}, {{/each}}</li>
-      </ul>
-  </li>
-</ul>
-{{/each}}
-</div> --}}
-
 {{yeild}}
-
-{{!-- GET PAGES INSTEAD OF USERS --}}
