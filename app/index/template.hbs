@@ -1,13 +1,13 @@
 <div class="col-md-12 text-center index ">
 <h3>Create Boards for your favorite topics, and fill them with pages</h3>
 <h4>Recently created Pages:</h4>
-<h6>
+<div>
 {{#each model as |index|}}
   {{#each index.pages as |page|}}
-    {{#link-to 'board' page.board_id}}{{page.created_at}}{{/link-to}}<br>
+    <h6 class="recent-page">{{#link-to 'board' page.board_id}}{{page.title}} : {{page.created_at}}{{/link-to}}</h6>
   {{/each}}
 {{/each}}
-</h6>
+</div>
 </div>
 
 {{yeild}}
