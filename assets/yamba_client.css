@@ -6180,22 +6180,57 @@ button.close {
   border-color: gainsboro;
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 0 rgba(255, 255, 255, 0.1); }
 
-.welcomeToWember {
+.welcomeToYamba {
   text-align: center; }
 
-.serverTitle {
+.boardTitle {
   text-align: center; }
 
-.allServers {
+.allBoards {
   text-align: center; }
 
 .all-server-links {
   background-color: #b2b2b2; }
 
-.col-md-12 {
-  border: .25px solid gray;
+.col-md-4 {
   background-color: #f9f9f7; }
 
-.col-md-4 {
-  border: .25px solid gray;
-  background-color: #f9f9f7; }
+.new-page {
+  background-color: #f9f9f7;
+  border-radius: 4px;
+  padding: 3px 5px;
+  margin-top: 5px; }
+
+.page {
+  background-color: #f9f9f7;
+  border-radius: 4px;
+  padding: 3px 5px;
+  margin-bottom: 5px; }
+
+.page img {
+  display: block;
+  margin: auto; }
+
+.navbar-default {
+  border: none;
+  box-shadow: none; }
+
+.btn {
+  border: none; }
+
+.board-card {
+  background-color: #f9f9f7;
+  border-radius: 4px;
+  margin-bottom: 5px; }
+
+.users {
+  background-color: #f9f9f7;
+  border-radius: 4px; }
+
+.recent-page {
+  -webkit-transition: all .2s ease-in-out;
+  transition: all .2s ease-in-out; }
+
+.recent-page:hover {
+  -webkit-transform: scale(1.1);
+          transform: scale(1.1); }

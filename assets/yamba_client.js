@@ -6,9 +6,9 @@
 
 /* jshint ignore:end */
 
-define('wember_client/ajax/service', ['exports', 'ember', 'ember-ajax/services/ajax', 'wember_client/config/environment'], function (exports, _ember, _emberAjaxServicesAjax, _wember_clientConfigEnvironment) {
+define('yamba_client/ajax/service', ['exports', 'ember', 'ember-ajax/services/ajax', 'yamba_client/config/environment'], function (exports, _ember, _emberAjaxServicesAjax, _yamba_clientConfigEnvironment) {
   exports['default'] = _emberAjaxServicesAjax['default'].extend({
-    host: _wember_clientConfigEnvironment['default'].apiHost,
+    host: _yamba_clientConfigEnvironment['default'].apiHost,
 
     auth: _ember['default'].inject.service(),
     headers: _ember['default'].computed('auth.credentials.token', {
@@ -24,25 +24,25 @@ define('wember_client/ajax/service', ['exports', 'ember', 'ember-ajax/services/a
     })
   });
 });
-define('wember_client/app', ['exports', 'ember', 'wember_client/resolver', 'ember-load-initializers', 'wember_client/config/environment'], function (exports, _ember, _wember_clientResolver, _emberLoadInitializers, _wember_clientConfigEnvironment) {
+define('yamba_client/app', ['exports', 'ember', 'yamba_client/resolver', 'ember-load-initializers', 'yamba_client/config/environment'], function (exports, _ember, _yamba_clientResolver, _emberLoadInitializers, _yamba_clientConfigEnvironment) {
 
   var App = undefined;
 
   _ember['default'].MODEL_FACTORY_INJECTIONS = true;
 
   App = _ember['default'].Application.extend({
-    modulePrefix: _wember_clientConfigEnvironment['default'].modulePrefix,
-    podModulePrefix: _wember_clientConfigEnvironment['default'].podModulePrefix,
-    Resolver: _wember_clientResolver['default']
+    modulePrefix: _yamba_clientConfigEnvironment['default'].modulePrefix,
+    podModulePrefix: _yamba_clientConfigEnvironment['default'].podModulePrefix,
+    Resolver: _yamba_clientResolver['default']
   });
 
-  (0, _emberLoadInitializers['default'])(App, _wember_clientConfigEnvironment['default'].modulePrefix);
+  (0, _emberLoadInitializers['default'])(App, _yamba_clientConfigEnvironment['default'].modulePrefix);
 
   exports['default'] = App;
 });
-define('wember_client/application/adapter', ['exports', 'wember_client/config/environment', 'active-model-adapter', 'ember'], function (exports, _wember_clientConfigEnvironment, _activeModelAdapter, _ember) {
+define('yamba_client/application/adapter', ['exports', 'yamba_client/config/environment', 'active-model-adapter', 'ember'], function (exports, _yamba_clientConfigEnvironment, _activeModelAdapter, _ember) {
   exports['default'] = _activeModelAdapter['default'].extend({
-    host: _wember_clientConfigEnvironment['default'].apiHost,
+    host: _yamba_clientConfigEnvironment['default'].apiHost,
 
     auth: _ember['default'].inject.service(),
 
@@ -59,7 +59,7 @@ define('wember_client/application/adapter', ['exports', 'wember_client/config/en
     })
   });
 });
-define('wember_client/application/route', ['exports', 'ember'], function (exports, _ember) {
+define('yamba_client/application/route', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Route.extend({
     auth: _ember['default'].inject.service(),
     flashMessages: _ember['default'].inject.service(),
@@ -95,10 +95,10 @@ define('wember_client/application/route', ['exports', 'ember'], function (export
     }
   });
 });
-define('wember_client/application/serializer', ['exports', 'active-model-adapter'], function (exports, _activeModelAdapter) {
+define('yamba_client/application/serializer', ['exports', 'active-model-adapter'], function (exports, _activeModelAdapter) {
   exports['default'] = _activeModelAdapter.ActiveModelSerializer.extend({});
 });
-define("wember_client/application/template", ["exports"], function (exports) {
+define("yamba_client/application/template", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
@@ -114,7 +114,7 @@ define("wember_client/application/template", ["exports"], function (exports) {
             "column": 0
           }
         },
-        "moduleName": "wember_client/application/template.hbs"
+        "moduleName": "yamba_client/application/template.hbs"
       },
       isEmpty: false,
       arity: 0,
@@ -140,7 +140,7 @@ define("wember_client/application/template", ["exports"], function (exports) {
     };
   })());
 });
-define('wember_client/auth/service', ['exports', 'ember', 'ember-local-storage'], function (exports, _ember, _emberLocalStorage) {
+define('yamba_client/auth/service', ['exports', 'ember', 'ember-local-storage'], function (exports, _ember, _emberLocalStorage) {
   exports['default'] = _ember['default'].Service.extend({
     ajax: _ember['default'].inject.service(),
     credentials: (0, _emberLocalStorage.storageFor)('auth'),
@@ -195,10 +195,279 @@ define('wember_client/auth/service', ['exports', 'ember', 'ember-local-storage']
     }
   });
 });
-define('wember_client/auth/storage', ['exports', 'ember-local-storage/local/object'], function (exports, _emberLocalStorageLocalObject) {
+define('yamba_client/auth/storage', ['exports', 'ember-local-storage/local/object'], function (exports, _emberLocalStorageLocalObject) {
   exports['default'] = _emberLocalStorageLocalObject['default'].extend({});
 });
-define('wember_client/change-password/route', ['exports', 'ember'], function (exports, _ember) {
+define('yamba_client/board/edit/route', ['exports', 'ember'], function (exports, _ember) {
+  exports['default'] = _ember['default'].Route.extend({
+    model: function model(params) {
+      return this.get('store').findRecord('board', params.board_id);
+    },
+
+    actions: {
+      saveBoard: function saveBoard(board) {
+        var _this = this;
+
+        board.save().then(function () {
+          return _this.transitionTo('boards');
+        });
+      }
+    }
+  });
+});
+define("yamba_client/board/edit/template", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    return {
+      meta: {
+        "revision": "Ember@2.8.3",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 4,
+            "column": 0
+          }
+        },
+        "moduleName": "yamba_client/board/edit/template.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var morphs = new Array(2);
+        morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+        morphs[1] = dom.createMorphAt(fragment, 2, 2, contextualElement);
+        dom.insertBoundary(fragment, 0);
+        return morphs;
+      },
+      statements: [["inline", "boards-pages/edit", [], ["editBoard", ["subexpr", "@mut", [["get", "model", ["loc", [null, [1, 30], [1, 35]]], 0, 0, 0, 0]], [], [], 0, 0], "save", "saveBoard"], ["loc", [null, [1, 0], [1, 54]]], 0, 0], ["content", "outlet", ["loc", [null, [3, 0], [3, 10]]], 0, 0, 0, 0]],
+      locals: [],
+      templates: []
+    };
+  })());
+});
+define('yamba_client/board/model', ['exports', 'ember-data'], function (exports, _emberData) {
+  exports['default'] = _emberData['default'].Model.extend({
+    name: _emberData['default'].attr('string'),
+    user: _emberData['default'].attr(),
+    canBeDeleted: _emberData['default'].attr('boolean'),
+    pages: _emberData['default'].hasMany('page')
+  });
+});
+define('yamba_client/board/route', ['exports', 'ember'], function (exports, _ember) {
+  exports['default'] = _ember['default'].Route.extend({
+    uploads: _ember['default'].inject.service(),
+    model: function model(params) {
+      return this.get('store').findRecord('board', params.board_id);
+    },
+
+    actions: {
+      deletePage: function deletePage(page) {
+        page.destroyRecord();
+      },
+
+      createPage: function createPage(page) {
+        var _this = this;
+
+        // let createdPage = this.get('store').createRecord('page', newPage);
+        // createdPage.save();
+
+        return this.get('uploads').newPageUpload(page) // This will use the uploads service, which gives us access to the `newPageUpload` function.
+        .then(function () {
+          return _this.refresh();
+        }) // Once the upload is successful, we will transition to our list of pages and if all worked, we should see the newly created movie
+        ['catch'](function (error) {
+          return console.error(error);
+        });
+      }
+    }
+  });
+});
+define("yamba_client/board/template", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    return {
+      meta: {
+        "revision": "Ember@2.8.3",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 4,
+            "column": 0
+          }
+        },
+        "moduleName": "yamba_client/board/template.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var morphs = new Array(2);
+        morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+        morphs[1] = dom.createMorphAt(fragment, 2, 2, contextualElement);
+        dom.insertBoundary(fragment, 0);
+        return morphs;
+      },
+      statements: [["inline", "boards-pages", [], ["board", ["subexpr", "@mut", [["get", "model", ["loc", [null, [1, 21], [1, 26]]], 0, 0, 0, 0]], [], [], 0, 0], "deletePage", "deletePage", "createPage", "createPage"], ["loc", [null, [1, 0], [1, 76]]], 0, 0], ["content", "outlet", ["loc", [null, [3, 0], [3, 10]]], 0, 0, 0, 0]],
+      locals: [],
+      templates: []
+    };
+  })());
+});
+define('yamba_client/boards/route', ['exports', 'ember'], function (exports, _ember) {
+  exports['default'] = _ember['default'].Route.extend({
+    model: function model() {
+      return this.get('store').findAll('board');
+    },
+
+    actions: {
+      deleteServer: function deleteServer(board) {
+        board.destroyRecord();
+      },
+
+      createBoard: function createBoard(board) {
+        var createdServer = this.get('store').createRecord('board', board);
+        createdServer.save();
+      },
+
+      editBoard: function editBoard(board) {
+        this.transitionTo('board/edit', board);
+      }
+    }
+  });
+});
+define("yamba_client/boards/template", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    var child0 = (function () {
+      return {
+        meta: {
+          "revision": "Ember@2.8.3",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 3,
+              "column": 0
+            },
+            "end": {
+              "line": 5,
+              "column": 0
+            }
+          },
+          "moduleName": "yamba_client/boards/template.hbs"
+        },
+        isEmpty: false,
+        arity: 1,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("  ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+          return morphs;
+        },
+        statements: [["inline", "board-card", [], ["board", ["subexpr", "@mut", [["get", "board", ["loc", [null, [4, 21], [4, 26]]], 0, 0, 0, 0]], [], [], 0, 0], "delete", "deleteServer", "edit", "editBoard"], ["loc", [null, [4, 2], [4, 67]]], 0, 0]],
+        locals: ["board"],
+        templates: []
+      };
+    })();
+    return {
+      meta: {
+        "revision": "Ember@2.8.3",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 10,
+            "column": 0
+          }
+        },
+        "moduleName": "yamba_client/boards/template.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createElement("h1");
+        dom.setAttribute(el1, "class", "allBoards");
+        var el2 = dom.createTextNode("Boards");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var morphs = new Array(3);
+        morphs[0] = dom.createMorphAt(fragment, 2, 2, contextualElement);
+        morphs[1] = dom.createMorphAt(fragment, 4, 4, contextualElement);
+        morphs[2] = dom.createMorphAt(fragment, 6, 6, contextualElement);
+        return morphs;
+      },
+      statements: [["block", "each", [["get", "model", ["loc", [null, [3, 8], [3, 13]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [3, 0], [5, 9]]]], ["inline", "new-board", [], ["createBoard", "createBoard", "board", ["subexpr", "@mut", [["get", "board", ["loc", [null, [7, 44], [7, 49]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [7, 0], [7, 51]]], 0, 0], ["content", "outlet", ["loc", [null, [9, 0], [9, 10]]], 0, 0, 0, 0]],
+      locals: [],
+      templates: [child0]
+    };
+  })());
+});
+define('yamba_client/change-password/route', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Route.extend({
     auth: _ember['default'].inject.service(),
     flashMessages: _ember['default'].inject.service(),
@@ -222,7 +491,7 @@ define('wember_client/change-password/route', ['exports', 'ember'], function (ex
     }
   });
 });
-define("wember_client/change-password/template", ["exports"], function (exports) {
+define("yamba_client/change-password/template", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
@@ -238,7 +507,7 @@ define("wember_client/change-password/template", ["exports"], function (exports)
             "column": 0
           }
         },
-        "moduleName": "wember_client/change-password/template.hbs"
+        "moduleName": "yamba_client/change-password/template.hbs"
       },
       isEmpty: false,
       arity: 0,
@@ -269,17 +538,535 @@ define("wember_client/change-password/template", ["exports"], function (exports)
     };
   })());
 });
-define('wember_client/components/app-version', ['exports', 'ember-cli-app-version/components/app-version', 'wember_client/config/environment'], function (exports, _emberCliAppVersionComponentsAppVersion, _wember_clientConfigEnvironment) {
+define('yamba_client/components/app-version', ['exports', 'ember-cli-app-version/components/app-version', 'yamba_client/config/environment'], function (exports, _emberCliAppVersionComponentsAppVersion, _yamba_clientConfigEnvironment) {
 
-  var name = _wember_clientConfigEnvironment['default'].APP.name;
-  var version = _wember_clientConfigEnvironment['default'].APP.version;
+  var name = _yamba_clientConfigEnvironment['default'].APP.name;
+  var version = _yamba_clientConfigEnvironment['default'].APP.version;
 
   exports['default'] = _emberCliAppVersionComponentsAppVersion['default'].extend({
     version: version,
     name: name
   });
 });
-define('wember_client/components/change-password-form/component', ['exports', 'ember'], function (exports, _ember) {
+define('yamba_client/components/board-card/component', ['exports', 'ember'], function (exports, _ember) {
+  exports['default'] = _ember['default'].Component.extend({
+    actions: {
+      'delete': function _delete() {
+        this.sendAction('delete', this.get('board'));
+      },
+
+      edit: function edit() {
+        this.sendAction('edit', this.get('board'));
+      }
+    }
+  });
+});
+define("yamba_client/components/board-card/template", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    var child0 = (function () {
+      return {
+        meta: {
+          "revision": "Ember@2.8.3",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 4,
+              "column": 2
+            },
+            "end": {
+              "line": 11,
+              "column": 4
+            }
+          },
+          "moduleName": "yamba_client/components/board-card/template.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("  ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("button");
+          dom.setAttribute(el1, "class", "btn btn-xs btn-warning");
+          var el2 = dom.createTextNode("\n     Rename\n  ");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n  ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("button");
+          dom.setAttribute(el1, "class", "btn btn-xs btn-danger");
+          var el2 = dom.createTextNode("\n     Delete\n  ");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var element0 = dom.childAt(fragment, [1]);
+          var element1 = dom.childAt(fragment, [3]);
+          var morphs = new Array(2);
+          morphs[0] = dom.createElementMorph(element0);
+          morphs[1] = dom.createElementMorph(element1);
+          return morphs;
+        },
+        statements: [["element", "action", ["edit"], [], ["loc", [null, [5, 41], [5, 58]]], 0, 0], ["element", "action", ["delete"], [], ["loc", [null, [8, 40], [8, 59]]], 0, 0]],
+        locals: [],
+        templates: []
+      };
+    })();
+    var child1 = (function () {
+      return {
+        meta: {
+          "revision": "Ember@2.8.3",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 13,
+              "column": 2
+            },
+            "end": {
+              "line": 13,
+              "column": 69
+            }
+          },
+          "moduleName": "yamba_client/components/board-card/template.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createElement("h2");
+          dom.setAttribute(el1, "class", "boardName");
+          var el2 = dom.createComment("");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(dom.childAt(fragment, [0]), 0, 0);
+          return morphs;
+        },
+        statements: [["content", "board.name", ["loc", [null, [13, 50], [13, 64]]], 0, 0, 0, 0]],
+        locals: [],
+        templates: []
+      };
+    })();
+    return {
+      meta: {
+        "revision": "Ember@2.8.3",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 19,
+            "column": 0
+          }
+        },
+        "moduleName": "yamba_client/components/board-card/template.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1, "class", "col-md-12 board-card");
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("p");
+        dom.setAttribute(el2, "class", "pull-left");
+        var el3 = dom.createComment("");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2, "class", "pull-right");
+        var el3 = dom.createTextNode("\n");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createComment("");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("  ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createComment("");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var element2 = dom.childAt(fragment, [0]);
+        var morphs = new Array(4);
+        morphs[0] = dom.createMorphAt(dom.childAt(element2, [1]), 0, 0);
+        morphs[1] = dom.createMorphAt(dom.childAt(element2, [3]), 1, 1);
+        morphs[2] = dom.createMorphAt(element2, 5, 5);
+        morphs[3] = dom.createMorphAt(fragment, 2, 2, contextualElement);
+        return morphs;
+      },
+      statements: [["content", "board.id", ["loc", [null, [2, 23], [2, 35]]], 0, 0, 0, 0], ["block", "if", [["get", "board.canBeDeleted", ["loc", [null, [4, 8], [4, 26]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [4, 2], [11, 11]]]], ["block", "link-to", ["board", ["get", "board", ["loc", [null, [13, 21], [13, 26]]], 0, 0, 0, 0]], [], 1, null, ["loc", [null, [13, 2], [13, 81]]]], ["content", "yield", ["loc", [null, [16, 0], [16, 9]]], 0, 0, 0, 0]],
+      locals: [],
+      templates: [child0, child1]
+    };
+  })());
+});
+define('yamba_client/components/boards-pages/component', ['exports', 'ember'], function (exports, _ember) {
+  exports['default'] = _ember['default'].Component.extend({
+    actions: {
+      deletePage: function deletePage(page) {
+        this.sendAction('deletePage', page);
+      },
+      createPage: function createPage(page) {
+        this.sendAction('createPage', page);
+      }
+    }
+  });
+});
+define('yamba_client/components/boards-pages/edit/component', ['exports', 'ember'], function (exports, _ember) {
+  exports['default'] = _ember['default'].Component.extend({
+    actions: {
+      save: function save() {
+        this.sendAction('save', this.get('editBoard'));
+      }
+    }
+  });
+});
+define("yamba_client/components/boards-pages/edit/template", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    return {
+      meta: {
+        "revision": "Ember@2.8.3",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 13,
+            "column": 0
+          }
+        },
+        "moduleName": "yamba_client/components/boards-pages/edit/template.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createElement("form");
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createComment("");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("button");
+        dom.setAttribute(el2, "type", "submit");
+        dom.setAttribute(el2, "name", "submit");
+        dom.setAttribute(el2, "class", "btn btn-primary");
+        var el3 = dom.createTextNode("\n    Edit Board Name\n  ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var element0 = dom.childAt(fragment, [0]);
+        var morphs = new Array(3);
+        morphs[0] = dom.createElementMorph(element0);
+        morphs[1] = dom.createMorphAt(element0, 1, 1);
+        morphs[2] = dom.createMorphAt(fragment, 2, 2, contextualElement);
+        return morphs;
+      },
+      statements: [["element", "action", ["save"], ["on", "submit"], ["loc", [null, [1, 6], [1, 35]]], 0, 0], ["inline", "input", [], ["placeholder", "Edit Board Name", "class", "input-group form-control", "value", ["subexpr", "@mut", [["get", "editBoard.name", ["loc", [null, [4, 16], [4, 30]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [2, 2], [4, 32]]], 0, 0], ["content", "yield", ["loc", [null, [12, 0], [12, 9]]], 0, 0, 0, 0]],
+      locals: [],
+      templates: []
+    };
+  })());
+});
+define('yamba_client/components/boards-pages/pages/component', ['exports', 'ember'], function (exports, _ember) {
+  exports['default'] = _ember['default'].Component.extend({
+    actions: {
+      'delete': function _delete() {
+        this.sendAction('delete', this.get('page'));
+      }
+    }
+  });
+});
+define("yamba_client/components/boards-pages/pages/template", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    var child0 = (function () {
+      return {
+        meta: {
+          "revision": "Ember@2.8.3",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 2,
+              "column": 2
+            },
+            "end": {
+              "line": 6,
+              "column": 2
+            }
+          },
+          "moduleName": "yamba_client/components/boards-pages/pages/template.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("    ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("button");
+          dom.setAttribute(el1, "class", "btn btn-xs btn-danger pull-right");
+          var el2 = dom.createTextNode("\n       Delete\n    ");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var element0 = dom.childAt(fragment, [1]);
+          var morphs = new Array(1);
+          morphs[0] = dom.createElementMorph(element0);
+          return morphs;
+        },
+        statements: [["element", "action", ["delete"], [], ["loc", [null, [3, 53], [3, 72]]], 0, 0]],
+        locals: [],
+        templates: []
+      };
+    })();
+    return {
+      meta: {
+        "revision": "Ember@2.8.3",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 19,
+            "column": 0
+          }
+        },
+        "moduleName": "yamba_client/components/boards-pages/pages/template.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1, "class", "col-md-12 page");
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createComment("");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("p");
+        dom.setAttribute(el2, "class", "pull-left");
+        var el3 = dom.createComment("");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2, "class", "text-center");
+        var el3 = dom.createTextNode("\n");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("img");
+        dom.setAttribute(el3, "class", "pageImage img-responsive text-center center-block");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n  ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("h3");
+        dom.setAttribute(el3, "class", "");
+        var el4 = dom.createComment("");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n  ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("p");
+        dom.setAttribute(el3, "class", "");
+        var el4 = dom.createComment("");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n  ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var element1 = dom.childAt(fragment, [0]);
+        var element2 = dom.childAt(element1, [5]);
+        var element3 = dom.childAt(element2, [2]);
+        var morphs = new Array(6);
+        morphs[0] = dom.createMorphAt(element1, 1, 1);
+        morphs[1] = dom.createMorphAt(dom.childAt(element1, [3]), 0, 0);
+        morphs[2] = dom.createAttrMorph(element3, 'src');
+        morphs[3] = dom.createMorphAt(dom.childAt(element2, [5]), 0, 0);
+        morphs[4] = dom.createMorphAt(dom.childAt(element2, [7]), 0, 0);
+        morphs[5] = dom.createMorphAt(fragment, 2, 2, contextualElement);
+        return morphs;
+      },
+      statements: [["block", "if", [["get", "page.canBeDeleted", ["loc", [null, [2, 8], [2, 25]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [2, 2], [6, 9]]]], ["content", "page.id", ["loc", [null, [7, 23], [7, 34]]], 0, 0, 0, 0], ["attribute", "src", ["concat", [["get", "page.image_url", ["loc", [null, [10, 74], [10, 88]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["content", "page.title", ["loc", [null, [13, 15], [13, 29]]], 0, 0, 0, 0], ["content", "page.body", ["loc", [null, [14, 14], [14, 27]]], 0, 0, 0, 0], ["content", "yield", ["loc", [null, [18, 0], [18, 9]]], 0, 0, 0, 0]],
+      locals: [],
+      templates: [child0]
+    };
+  })());
+});
+define("yamba_client/components/boards-pages/template", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    var child0 = (function () {
+      return {
+        meta: {
+          "revision": "Ember@2.8.3",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 3,
+              "column": 3
+            },
+            "end": {
+              "line": 8,
+              "column": 3
+            }
+          },
+          "moduleName": "yamba_client/components/boards-pages/template.hbs"
+        },
+        isEmpty: false,
+        arity: 1,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("\n    ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+          return morphs;
+        },
+        statements: [["inline", "boards-pages/pages", [], ["page", ["subexpr", "@mut", [["get", "page", ["loc", [null, [5, 30], [5, 34]]], 0, 0, 0, 0]], [], [], 0, 0], "delete", "deletePage"], ["loc", [null, [5, 4], [6, 44]]], 0, 0]],
+        locals: ["page"],
+        templates: []
+      };
+    })();
+    return {
+      meta: {
+        "revision": "Ember@2.8.3",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 13,
+            "column": 0
+          }
+        },
+        "moduleName": "yamba_client/components/boards-pages/template.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createElement("h2");
+        dom.setAttribute(el1, "class", "boardTitle");
+        var el2 = dom.createTextNode("Board: ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createComment("");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var morphs = new Array(4);
+        morphs[0] = dom.createMorphAt(dom.childAt(fragment, [0]), 1, 1);
+        morphs[1] = dom.createMorphAt(fragment, 2, 2, contextualElement);
+        morphs[2] = dom.createMorphAt(fragment, 4, 4, contextualElement);
+        morphs[3] = dom.createMorphAt(fragment, 6, 6, contextualElement);
+        return morphs;
+      },
+      statements: [["content", "board.name", ["loc", [null, [1, 30], [1, 44]]], 0, 0, 0, 0], ["block", "each", [["get", "board.pages", ["loc", [null, [3, 11], [3, 22]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [3, 3], [8, 12]]]], ["inline", "new-page", [], ["createPage", "createPage", "board", ["subexpr", "@mut", [["get", "board", ["loc", [null, [10, 41], [10, 46]]], 0, 0, 0, 0]], [], [], 0, 0], "user", ["subexpr", "@mut", [["get", "user", ["loc", [null, [10, 52], [10, 56]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [10, 0], [10, 58]]], 0, 0], ["content", "yield", ["loc", [null, [12, 0], [12, 9]]], 0, 0, 0, 0]],
+      locals: [],
+      templates: [child0]
+    };
+  })());
+});
+define('yamba_client/components/change-password-form/component', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Component.extend({
     tagName: 'form',
     classNames: ['form-horizontal'],
@@ -297,7 +1084,7 @@ define('wember_client/components/change-password-form/component', ['exports', 'e
     }
   });
 });
-define("wember_client/components/change-password-form/template", ["exports"], function (exports) {
+define("yamba_client/components/change-password-form/template", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
@@ -313,7 +1100,7 @@ define("wember_client/components/change-password-form/template", ["exports"], fu
             "column": 0
           }
         },
-        "moduleName": "wember_client/components/change-password-form/template.hbs"
+        "moduleName": "yamba_client/components/change-password-form/template.hbs"
       },
       isEmpty: false,
       arity: 0,
@@ -390,13 +1177,13 @@ define("wember_client/components/change-password-form/template", ["exports"], fu
     };
   })());
 });
-define('wember_client/components/email-input/component', ['exports', 'ember'], function (exports, _ember) {
+define('yamba_client/components/email-input/component', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Component.extend({
     tagName: 'div',
     classNames: ['form-group']
   });
 });
-define("wember_client/components/email-input/template", ["exports"], function (exports) {
+define("yamba_client/components/email-input/template", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
@@ -412,7 +1199,7 @@ define("wember_client/components/email-input/template", ["exports"], function (e
             "column": 0
           }
         },
-        "moduleName": "wember_client/components/email-input/template.hbs"
+        "moduleName": "yamba_client/components/email-input/template.hbs"
       },
       isEmpty: false,
       arity: 0,
@@ -444,7 +1231,7 @@ define("wember_client/components/email-input/template", ["exports"], function (e
     };
   })());
 });
-define('wember_client/components/flash-message', ['exports', 'ember-cli-flash/components/flash-message'], function (exports, _emberCliFlashComponentsFlashMessage) {
+define('yamba_client/components/flash-message', ['exports', 'ember-cli-flash/components/flash-message'], function (exports, _emberCliFlashComponentsFlashMessage) {
   Object.defineProperty(exports, 'default', {
     enumerable: true,
     get: function get() {
@@ -452,7 +1239,7 @@ define('wember_client/components/flash-message', ['exports', 'ember-cli-flash/co
     }
   });
 });
-define('wember_client/components/hamburger-menu/component', ['exports', 'ember'], function (exports, _ember) {
+define('yamba_client/components/hamburger-menu/component', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Component.extend({
     tagName: 'button',
     classNames: ['navbar-toggle', 'collapsed'],
@@ -462,7 +1249,7 @@ define('wember_client/components/hamburger-menu/component', ['exports', 'ember']
     expanded: false
   });
 });
-define("wember_client/components/hamburger-menu/template", ["exports"], function (exports) {
+define("yamba_client/components/hamburger-menu/template", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
@@ -478,7 +1265,7 @@ define("wember_client/components/hamburger-menu/template", ["exports"], function
             "column": 0
           }
         },
-        "moduleName": "wember_client/components/hamburger-menu/template.hbs"
+        "moduleName": "yamba_client/components/hamburger-menu/template.hbs"
       },
       isEmpty: false,
       arity: 0,
@@ -521,7 +1308,7 @@ define("wember_client/components/hamburger-menu/template", ["exports"], function
     };
   })());
 });
-define('wember_client/components/my-application/component', ['exports', 'ember'], function (exports, _ember) {
+define('yamba_client/components/my-application/component', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Component.extend({
     auth: _ember['default'].inject.service(),
 
@@ -535,7 +1322,7 @@ define('wember_client/components/my-application/component', ['exports', 'ember']
     }
   });
 });
-define("wember_client/components/my-application/template", ["exports"], function (exports) {
+define("yamba_client/components/my-application/template", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     var child0 = (function () {
       var child0 = (function () {
@@ -550,10 +1337,10 @@ define("wember_client/components/my-application/template", ["exports"], function
               },
               "end": {
                 "line": 8,
-                "column": 40
+                "column": 39
               }
             },
-            "moduleName": "wember_client/components/my-application/template.hbs"
+            "moduleName": "yamba_client/components/my-application/template.hbs"
           },
           isEmpty: false,
           arity: 0,
@@ -588,7 +1375,7 @@ define("wember_client/components/my-application/template", ["exports"], function
                 "column": 37
               }
             },
-            "moduleName": "wember_client/components/my-application/template.hbs"
+            "moduleName": "yamba_client/components/my-application/template.hbs"
           },
           isEmpty: false,
           arity: 0,
@@ -622,7 +1409,7 @@ define("wember_client/components/my-application/template", ["exports"], function
               "column": 8
             }
           },
-          "moduleName": "wember_client/components/my-application/template.hbs"
+          "moduleName": "yamba_client/components/my-application/template.hbs"
         },
         isEmpty: false,
         arity: 0,
@@ -652,7 +1439,7 @@ define("wember_client/components/my-application/template", ["exports"], function
           morphs[1] = dom.createMorphAt(dom.childAt(fragment, [3]), 0, 0);
           return morphs;
         },
-        statements: [["block", "link-to", ["servers"], [], 0, null, ["loc", [null, [8, 12], [8, 52]]]], ["block", "link-to", ["users"], [], 1, null, ["loc", [null, [9, 12], [9, 49]]]]],
+        statements: [["block", "link-to", ["boards"], [], 0, null, ["loc", [null, [8, 12], [8, 51]]]], ["block", "link-to", ["users"], [], 1, null, ["loc", [null, [9, 12], [9, 49]]]]],
         locals: [],
         templates: [child0, child1]
       };
@@ -673,7 +1460,7 @@ define("wember_client/components/my-application/template", ["exports"], function
                 "column": 57
               }
             },
-            "moduleName": "wember_client/components/my-application/template.hbs"
+            "moduleName": "yamba_client/components/my-application/template.hbs"
           },
           isEmpty: false,
           arity: 0,
@@ -707,7 +1494,7 @@ define("wember_client/components/my-application/template", ["exports"], function
               "column": 8
             }
           },
-          "moduleName": "wember_client/components/my-application/template.hbs"
+          "moduleName": "yamba_client/components/my-application/template.hbs"
         },
         isEmpty: false,
         arity: 0,
@@ -762,7 +1549,7 @@ define("wember_client/components/my-application/template", ["exports"], function
                 "column": 41
               }
             },
-            "moduleName": "wember_client/components/my-application/template.hbs"
+            "moduleName": "yamba_client/components/my-application/template.hbs"
           },
           isEmpty: false,
           arity: 0,
@@ -797,7 +1584,7 @@ define("wember_client/components/my-application/template", ["exports"], function
                 "column": 41
               }
             },
-            "moduleName": "wember_client/components/my-application/template.hbs"
+            "moduleName": "yamba_client/components/my-application/template.hbs"
           },
           isEmpty: false,
           arity: 0,
@@ -831,7 +1618,7 @@ define("wember_client/components/my-application/template", ["exports"], function
               "column": 8
             }
           },
-          "moduleName": "wember_client/components/my-application/template.hbs"
+          "moduleName": "yamba_client/components/my-application/template.hbs"
         },
         isEmpty: false,
         arity: 0,
@@ -881,7 +1668,7 @@ define("wember_client/components/my-application/template", ["exports"], function
               "column": 0
             }
           },
-          "moduleName": "wember_client/components/my-application/template.hbs"
+          "moduleName": "yamba_client/components/my-application/template.hbs"
         },
         isEmpty: false,
         arity: 1,
@@ -921,7 +1708,7 @@ define("wember_client/components/my-application/template", ["exports"], function
             "column": 0
           }
         },
-        "moduleName": "wember_client/components/my-application/template.hbs"
+        "moduleName": "yamba_client/components/my-application/template.hbs"
       },
       isEmpty: false,
       arity: 0,
@@ -978,7 +1765,7 @@ define("wember_client/components/my-application/template", ["exports"], function
         var el1 = dom.createTextNode("\n\n");
         dom.appendChild(el0, el1);
         var el1 = dom.createElement("h1");
-        dom.setAttribute(el1, "class", "welcomeToWember");
+        dom.setAttribute(el1, "class", "welcomeToYamba");
         var el2 = dom.createTextNode("Welcome to Yamba!");
         dom.appendChild(el1, el2);
         dom.appendChild(el0, el1);
@@ -989,7 +1776,7 @@ define("wember_client/components/my-application/template", ["exports"], function
         var el1 = dom.createTextNode("\n");
         dom.appendChild(el0, el1);
         var el1 = dom.createElement("div");
-        dom.setAttribute(el1, "class", "col-md-8 col-md-offset-2");
+        dom.setAttribute(el1, "class", "col-md-12");
         var el2 = dom.createTextNode("\n  ");
         dom.appendChild(el1, el2);
         var el2 = dom.createComment("");
@@ -1018,13 +1805,13 @@ define("wember_client/components/my-application/template", ["exports"], function
     };
   })());
 });
-define('wember_client/components/navbar-header/component', ['exports', 'ember'], function (exports, _ember) {
+define('yamba_client/components/navbar-header/component', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Component.extend({
     tagName: 'div',
     classNames: ['navbar-header']
   });
 });
-define("wember_client/components/navbar-header/template", ["exports"], function (exports) {
+define("yamba_client/components/navbar-header/template", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     var child0 = (function () {
       return {
@@ -1041,7 +1828,7 @@ define("wember_client/components/navbar-header/template", ["exports"], function 
               "column": 51
             }
           },
-          "moduleName": "wember_client/components/navbar-header/template.hbs"
+          "moduleName": "yamba_client/components/navbar-header/template.hbs"
         },
         isEmpty: false,
         arity: 0,
@@ -1075,7 +1862,7 @@ define("wember_client/components/navbar-header/template", ["exports"], function 
             "column": 0
           }
         },
-        "moduleName": "wember_client/components/navbar-header/template.hbs"
+        "moduleName": "yamba_client/components/navbar-header/template.hbs"
       },
       isEmpty: false,
       arity: 0,
@@ -1106,15 +1893,113 @@ define("wember_client/components/navbar-header/template", ["exports"], function 
     };
   })());
 });
-define('wember_client/components/new-page/component', ['exports', 'ember'], function (exports, _ember) {
+define('yamba_client/components/new-board/component', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Component.extend({
     flashMessages: _ember['default'].inject.service(),
-    page: {
+    newBoard: {
+      name: null
+    },
+
+    actions: {
+      createBoard: function createBoard() {
+        if (this.get('newBoard.name') !== null) {
+          var board = this.get('newBoard');
+          this.sendAction('createBoard', board);
+          this.set('newBoard.name', null);
+        } else {
+          this.get('flashMessages').danger('Please name your new Board.');
+        }
+      }
+    }
+  });
+});
+define("yamba_client/components/new-board/template", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    return {
+      meta: {
+        "revision": "Ember@2.8.3",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 15,
+            "column": 0
+          }
+        },
+        "moduleName": "yamba_client/components/new-board/template.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createElement("br");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("form");
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createComment("");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n          ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createComment("");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("br");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("button");
+        dom.setAttribute(el2, "type", "submit");
+        dom.setAttribute(el2, "name", "submit");
+        dom.setAttribute(el2, "class", "btn btn-primary");
+        var el3 = dom.createTextNode("\n  Create New Board\n");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var element0 = dom.childAt(fragment, [2]);
+        var morphs = new Array(4);
+        morphs[0] = dom.createElementMorph(element0);
+        morphs[1] = dom.createMorphAt(element0, 1, 1);
+        morphs[2] = dom.createMorphAt(element0, 3, 3);
+        morphs[3] = dom.createMorphAt(fragment, 4, 4, contextualElement);
+        return morphs;
+      },
+      statements: [["element", "action", ["createBoard"], ["on", "submit"], ["loc", [null, [2, 6], [2, 42]]], 0, 0], ["inline", "input", [], ["placeholder", "New Board Name", "class", "input-group form-control", "value", ["subexpr", "@mut", [["get", "newBoard.name", ["loc", [null, [5, 16], [5, 29]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [3, 2], [5, 31]]], 0, 0], ["inline", "input", [], ["type", "hidden", "value", ["subexpr", "@mut", [["get", "user.id", ["loc", [null, [7, 24], [7, 31]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [6, 10], [7, 33]]], 0, 0], ["content", "yield", ["loc", [null, [14, 0], [14, 9]]], 0, 0, 0, 0]],
+      locals: [],
+      templates: []
+    };
+  })());
+});
+define('yamba_client/components/new-page/component', ['exports', 'ember'], function (exports, _ember) {
+  exports['default'] = _ember['default'].Component.extend({
+    flashMessages: _ember['default'].inject.service(),
+    newPage: {
+      // Old attributes:
       // title: null,
       // body: null
     },
 
     actions: {
+      // Old method:
       // createPage() {
       //   if (this.get('newPage.title') && this.get('newPage.body') !== null) {
       //     let newPage = this.get('newPage');
@@ -1135,7 +2020,7 @@ define('wember_client/components/new-page/component', ['exports', 'ember'], func
     }
   });
 });
-define("wember_client/components/new-page/template", ["exports"], function (exports) {
+define("yamba_client/components/new-page/template", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
@@ -1151,7 +2036,7 @@ define("wember_client/components/new-page/template", ["exports"], function (expo
             "column": 0
           }
         },
-        "moduleName": "wember_client/components/new-page/template.hbs"
+        "moduleName": "yamba_client/components/new-page/template.hbs"
       },
       isEmpty: false,
       arity: 0,
@@ -1246,7 +2131,7 @@ define("wember_client/components/new-page/template", ["exports"], function (expo
     };
   })());
 });
-define('wember_client/components/new-server/component', ['exports', 'ember'], function (exports, _ember) {
+define('yamba_client/components/new-server/component', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Component.extend({
     flashMessages: _ember['default'].inject.service(),
     newServer: {
@@ -1266,7 +2151,7 @@ define('wember_client/components/new-server/component', ['exports', 'ember'], fu
     }
   });
 });
-define("wember_client/components/new-server/template", ["exports"], function (exports) {
+define("yamba_client/components/new-server/template", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
@@ -1282,7 +2167,7 @@ define("wember_client/components/new-server/template", ["exports"], function (ex
             "column": 0
           }
         },
-        "moduleName": "wember_client/components/new-server/template.hbs"
+        "moduleName": "yamba_client/components/new-server/template.hbs"
       },
       isEmpty: false,
       arity: 0,
@@ -1329,7 +2214,7 @@ define("wember_client/components/new-server/template", ["exports"], function (ex
     };
   })());
 });
-define('wember_client/components/page-server/component', ['exports', 'ember'], function (exports, _ember) {
+define('yamba_client/components/page-server/component', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Component.extend({
     actions: {
       deletePage: function deletePage(page) {
@@ -1341,13 +2226,13 @@ define('wember_client/components/page-server/component', ['exports', 'ember'], f
     }
   });
 });
-define('wember_client/components/password-confirmation-input/component', ['exports', 'ember'], function (exports, _ember) {
+define('yamba_client/components/password-confirmation-input/component', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Component.extend({
     tagName: 'div',
     classNames: ['form-group']
   });
 });
-define("wember_client/components/password-confirmation-input/template", ["exports"], function (exports) {
+define("yamba_client/components/password-confirmation-input/template", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
@@ -1363,7 +2248,7 @@ define("wember_client/components/password-confirmation-input/template", ["export
             "column": 0
           }
         },
-        "moduleName": "wember_client/components/password-confirmation-input/template.hbs"
+        "moduleName": "yamba_client/components/password-confirmation-input/template.hbs"
       },
       isEmpty: false,
       arity: 0,
@@ -1395,13 +2280,13 @@ define("wember_client/components/password-confirmation-input/template", ["export
     };
   })());
 });
-define('wember_client/components/password-input/component', ['exports', 'ember'], function (exports, _ember) {
+define('yamba_client/components/password-input/component', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Component.extend({
     tagName: 'div',
     classNames: ['form-group']
   });
 });
-define("wember_client/components/password-input/template", ["exports"], function (exports) {
+define("yamba_client/components/password-input/template", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
@@ -1417,7 +2302,7 @@ define("wember_client/components/password-input/template", ["exports"], function
             "column": 0
           }
         },
-        "moduleName": "wember_client/components/password-input/template.hbs"
+        "moduleName": "yamba_client/components/password-input/template.hbs"
       },
       isEmpty: false,
       arity: 0,
@@ -1449,7 +2334,7 @@ define("wember_client/components/password-input/template", ["exports"], function
     };
   })());
 });
-define('wember_client/components/server-card/component', ['exports', 'ember'], function (exports, _ember) {
+define('yamba_client/components/server-card/component', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Component.extend({
     actions: {
       'delete': function _delete() {
@@ -1462,167 +2347,7 @@ define('wember_client/components/server-card/component', ['exports', 'ember'], f
     }
   });
 });
-define("wember_client/components/server-card/template", ["exports"], function (exports) {
-  exports["default"] = Ember.HTMLBars.template((function () {
-    var child0 = (function () {
-      return {
-        meta: {
-          "revision": "Ember@2.8.3",
-          "loc": {
-            "source": null,
-            "start": {
-              "line": 4,
-              "column": 2
-            },
-            "end": {
-              "line": 4,
-              "column": 83
-            }
-          },
-          "moduleName": "wember_client/components/server-card/template.hbs"
-        },
-        isEmpty: false,
-        arity: 0,
-        cachedFragment: null,
-        hasRendered: false,
-        buildFragment: function buildFragment(dom) {
-          var el0 = dom.createDocumentFragment();
-          var el1 = dom.createElement("h2");
-          dom.setAttribute(el1, "class", "serverCardServername");
-          var el2 = dom.createComment("");
-          dom.appendChild(el1, el2);
-          dom.appendChild(el0, el1);
-          return el0;
-        },
-        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-          var morphs = new Array(1);
-          morphs[0] = dom.createMorphAt(dom.childAt(fragment, [0]), 0, 0);
-          return morphs;
-        },
-        statements: [["content", "server.name", ["loc", [null, [4, 63], [4, 78]]], 0, 0, 0, 0]],
-        locals: [],
-        templates: []
-      };
-    })();
-    var child1 = (function () {
-      return {
-        meta: {
-          "revision": "Ember@2.8.3",
-          "loc": {
-            "source": null,
-            "start": {
-              "line": 5,
-              "column": 2
-            },
-            "end": {
-              "line": 13,
-              "column": 4
-            }
-          },
-          "moduleName": "wember_client/components/server-card/template.hbs"
-        },
-        isEmpty: false,
-        arity: 0,
-        cachedFragment: null,
-        hasRendered: false,
-        buildFragment: function buildFragment(dom) {
-          var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("  ");
-          dom.appendChild(el0, el1);
-          var el1 = dom.createElement("button");
-          dom.setAttribute(el1, "class", "btn btn-xs btn-danger");
-          var el2 = dom.createTextNode("\n     Delete\n  ");
-          dom.appendChild(el1, el2);
-          dom.appendChild(el0, el1);
-          var el1 = dom.createTextNode("\n\n  ");
-          dom.appendChild(el0, el1);
-          var el1 = dom.createElement("button");
-          dom.setAttribute(el1, "class", "btn btn-xs btn-warning");
-          var el2 = dom.createTextNode("\n     Rename\n  ");
-          dom.appendChild(el1, el2);
-          dom.appendChild(el0, el1);
-          var el1 = dom.createTextNode("\n");
-          dom.appendChild(el0, el1);
-          return el0;
-        },
-        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-          var element0 = dom.childAt(fragment, [1]);
-          var element1 = dom.childAt(fragment, [3]);
-          var morphs = new Array(2);
-          morphs[0] = dom.createElementMorph(element0);
-          morphs[1] = dom.createElementMorph(element1);
-          return morphs;
-        },
-        statements: [["element", "action", ["delete"], [], ["loc", [null, [6, 40], [6, 59]]], 0, 0], ["element", "action", ["edit"], [], ["loc", [null, [10, 41], [10, 58]]], 0, 0]],
-        locals: [],
-        templates: []
-      };
-    })();
-    return {
-      meta: {
-        "revision": "Ember@2.8.3",
-        "loc": {
-          "source": null,
-          "start": {
-            "line": 1,
-            "column": 0
-          },
-          "end": {
-            "line": 19,
-            "column": 0
-          }
-        },
-        "moduleName": "wember_client/components/server-card/template.hbs"
-      },
-      isEmpty: false,
-      arity: 0,
-      cachedFragment: null,
-      hasRendered: false,
-      buildFragment: function buildFragment(dom) {
-        var el0 = dom.createDocumentFragment();
-        var el1 = dom.createElement("div");
-        dom.setAttribute(el1, "class", "all-server-links");
-        var el2 = dom.createTextNode("\n");
-        dom.appendChild(el1, el2);
-        var el2 = dom.createElement("div");
-        dom.setAttribute(el2, "class", "col-md-4 server-card");
-        var el3 = dom.createTextNode("\n\n  ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createComment("");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createComment("");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n");
-        dom.appendChild(el2, el3);
-        dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n");
-        dom.appendChild(el1, el2);
-        dom.appendChild(el0, el1);
-        var el1 = dom.createTextNode("\n\n");
-        dom.appendChild(el0, el1);
-        var el1 = dom.createComment("");
-        dom.appendChild(el0, el1);
-        var el1 = dom.createTextNode("\n");
-        dom.appendChild(el0, el1);
-        return el0;
-      },
-      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var element2 = dom.childAt(fragment, [0, 1]);
-        var morphs = new Array(3);
-        morphs[0] = dom.createMorphAt(element2, 1, 1);
-        morphs[1] = dom.createMorphAt(element2, 3, 3);
-        morphs[2] = dom.createMorphAt(fragment, 2, 2, contextualElement);
-        return morphs;
-      },
-      statements: [["block", "link-to", ["server", ["get", "server", ["loc", [null, [4, 22], [4, 28]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [4, 2], [4, 95]]]], ["block", "if", [["get", "server.canBeDeleted", ["loc", [null, [5, 8], [5, 27]]], 0, 0, 0, 0]], [], 1, null, ["loc", [null, [5, 2], [13, 11]]]], ["content", "yield", ["loc", [null, [18, 0], [18, 9]]], 0, 0, 0, 0]],
-      locals: [],
-      templates: [child0, child1]
-    };
-  })());
-});
-define('wember_client/components/servers-pages/component', ['exports', 'ember'], function (exports, _ember) {
+define('yamba_client/components/servers-pages/component', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Component.extend({
     actions: {
       deletePage: function deletePage(page) {
@@ -1634,7 +2359,7 @@ define('wember_client/components/servers-pages/component', ['exports', 'ember'],
     }
   });
 });
-define('wember_client/components/servers-pages/edit/component', ['exports', 'ember'], function (exports, _ember) {
+define('yamba_client/components/servers-pages/edit/component', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Component.extend({
     actions: {
       save: function save() {
@@ -1643,7 +2368,7 @@ define('wember_client/components/servers-pages/edit/component', ['exports', 'emb
     }
   });
 });
-define("wember_client/components/servers-pages/edit/template", ["exports"], function (exports) {
+define("yamba_client/components/servers-pages/edit/template", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
@@ -1659,7 +2384,7 @@ define("wember_client/components/servers-pages/edit/template", ["exports"], func
             "column": 0
           }
         },
-        "moduleName": "wember_client/components/servers-pages/edit/template.hbs"
+        "moduleName": "yamba_client/components/servers-pages/edit/template.hbs"
       },
       isEmpty: false,
       arity: 0,
@@ -1706,7 +2431,7 @@ define("wember_client/components/servers-pages/edit/template", ["exports"], func
     };
   })());
 });
-define('wember_client/components/servers-pages/pages/component', ['exports', 'ember'], function (exports, _ember) {
+define('yamba_client/components/servers-pages/pages/component', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Component.extend({
     actions: {
       'delete': function _delete() {
@@ -1715,7 +2440,7 @@ define('wember_client/components/servers-pages/pages/component', ['exports', 'em
     }
   });
 });
-define("wember_client/components/servers-pages/pages/template", ["exports"], function (exports) {
+define("yamba_client/components/servers-pages/pages/template", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     var child0 = (function () {
       return {
@@ -1732,7 +2457,7 @@ define("wember_client/components/servers-pages/pages/template", ["exports"], fun
               "column": 0
             }
           },
-          "moduleName": "wember_client/components/servers-pages/pages/template.hbs"
+          "moduleName": "yamba_client/components/servers-pages/pages/template.hbs"
         },
         isEmpty: false,
         arity: 0,
@@ -1774,7 +2499,7 @@ define("wember_client/components/servers-pages/pages/template", ["exports"], fun
             "column": 0
           }
         },
-        "moduleName": "wember_client/components/servers-pages/pages/template.hbs"
+        "moduleName": "yamba_client/components/servers-pages/pages/template.hbs"
       },
       isEmpty: false,
       arity: 0,
@@ -1831,7 +2556,7 @@ define("wember_client/components/servers-pages/pages/template", ["exports"], fun
     };
   })());
 });
-define("wember_client/components/servers-pages/template", ["exports"], function (exports) {
+define("yamba_client/components/servers-pages/template", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     var child0 = (function () {
       return {
@@ -1848,7 +2573,7 @@ define("wember_client/components/servers-pages/template", ["exports"], function 
               "column": 3
             }
           },
-          "moduleName": "wember_client/components/servers-pages/template.hbs"
+          "moduleName": "yamba_client/components/servers-pages/template.hbs"
         },
         isEmpty: false,
         arity: 1,
@@ -1888,7 +2613,7 @@ define("wember_client/components/servers-pages/template", ["exports"], function 
             "column": 0
           }
         },
-        "moduleName": "wember_client/components/servers-pages/template.hbs"
+        "moduleName": "yamba_client/components/servers-pages/template.hbs"
       },
       isEmpty: false,
       arity: 0,
@@ -1933,7 +2658,7 @@ define("wember_client/components/servers-pages/template", ["exports"], function 
     };
   })());
 });
-define('wember_client/components/sign-in-form/component', ['exports', 'ember'], function (exports, _ember) {
+define('yamba_client/components/sign-in-form/component', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Component.extend({
     tagName: 'form',
     classNames: ['form-horizontal'],
@@ -1951,7 +2676,7 @@ define('wember_client/components/sign-in-form/component', ['exports', 'ember'], 
     }
   });
 });
-define("wember_client/components/sign-in-form/template", ["exports"], function (exports) {
+define("yamba_client/components/sign-in-form/template", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
@@ -1967,7 +2692,7 @@ define("wember_client/components/sign-in-form/template", ["exports"], function (
             "column": 0
           }
         },
-        "moduleName": "wember_client/components/sign-in-form/template.hbs"
+        "moduleName": "yamba_client/components/sign-in-form/template.hbs"
       },
       isEmpty: false,
       arity: 0,
@@ -2017,7 +2742,7 @@ define("wember_client/components/sign-in-form/template", ["exports"], function (
     };
   })());
 });
-define('wember_client/components/sign-up-form/component', ['exports', 'ember'], function (exports, _ember) {
+define('yamba_client/components/sign-up-form/component', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Component.extend({
     tagName: 'form',
     classNames: ['form-horizontal'],
@@ -2035,7 +2760,7 @@ define('wember_client/components/sign-up-form/component', ['exports', 'ember'], 
     }
   });
 });
-define("wember_client/components/sign-up-form/template", ["exports"], function (exports) {
+define("yamba_client/components/sign-up-form/template", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
@@ -2051,7 +2776,7 @@ define("wember_client/components/sign-up-form/template", ["exports"], function (
             "column": 0
           }
         },
-        "moduleName": "wember_client/components/sign-up-form/template.hbs"
+        "moduleName": "yamba_client/components/sign-up-form/template.hbs"
       },
       isEmpty: false,
       arity: 0,
@@ -2106,13 +2831,13 @@ define("wember_client/components/sign-up-form/template", ["exports"], function (
     };
   })());
 });
-define('wember_client/controllers/array', ['exports', 'ember'], function (exports, _ember) {
+define('yamba_client/controllers/array', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Controller;
 });
-define('wember_client/controllers/object', ['exports', 'ember'], function (exports, _ember) {
+define('yamba_client/controllers/object', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Controller;
 });
-define('wember_client/flash/object', ['exports', 'ember-cli-flash/flash/object'], function (exports, _emberCliFlashFlashObject) {
+define('yamba_client/flash/object', ['exports', 'ember-cli-flash/flash/object'], function (exports, _emberCliFlashFlashObject) {
   Object.defineProperty(exports, 'default', {
     enumerable: true,
     get: function get() {
@@ -2120,13 +2845,13 @@ define('wember_client/flash/object', ['exports', 'ember-cli-flash/flash/object']
     }
   });
 });
-define('wember_client/helpers/pluralize', ['exports', 'ember-inflector/lib/helpers/pluralize'], function (exports, _emberInflectorLibHelpersPluralize) {
+define('yamba_client/helpers/pluralize', ['exports', 'ember-inflector/lib/helpers/pluralize'], function (exports, _emberInflectorLibHelpersPluralize) {
   exports['default'] = _emberInflectorLibHelpersPluralize['default'];
 });
-define('wember_client/helpers/singularize', ['exports', 'ember-inflector/lib/helpers/singularize'], function (exports, _emberInflectorLibHelpersSingularize) {
+define('yamba_client/helpers/singularize', ['exports', 'ember-inflector/lib/helpers/singularize'], function (exports, _emberInflectorLibHelpersSingularize) {
   exports['default'] = _emberInflectorLibHelpersSingularize['default'];
 });
-define("wember_client/initializers/active-model-adapter", ["exports", "active-model-adapter", "active-model-adapter/active-model-serializer"], function (exports, _activeModelAdapter, _activeModelAdapterActiveModelSerializer) {
+define("yamba_client/initializers/active-model-adapter", ["exports", "active-model-adapter", "active-model-adapter/active-model-serializer"], function (exports, _activeModelAdapter, _activeModelAdapterActiveModelSerializer) {
   exports["default"] = {
     name: 'active-model-adapter',
     initialize: function initialize() {
@@ -2136,13 +2861,13 @@ define("wember_client/initializers/active-model-adapter", ["exports", "active-mo
     }
   };
 });
-define('wember_client/initializers/app-version', ['exports', 'ember-cli-app-version/initializer-factory', 'wember_client/config/environment'], function (exports, _emberCliAppVersionInitializerFactory, _wember_clientConfigEnvironment) {
+define('yamba_client/initializers/app-version', ['exports', 'ember-cli-app-version/initializer-factory', 'yamba_client/config/environment'], function (exports, _emberCliAppVersionInitializerFactory, _yamba_clientConfigEnvironment) {
   exports['default'] = {
     name: 'App Version',
-    initialize: (0, _emberCliAppVersionInitializerFactory['default'])(_wember_clientConfigEnvironment['default'].APP.name, _wember_clientConfigEnvironment['default'].APP.version)
+    initialize: (0, _emberCliAppVersionInitializerFactory['default'])(_yamba_clientConfigEnvironment['default'].APP.name, _yamba_clientConfigEnvironment['default'].APP.version)
   };
 });
-define('wember_client/initializers/container-debug-adapter', ['exports', 'ember-resolver/container-debug-adapter'], function (exports, _emberResolverContainerDebugAdapter) {
+define('yamba_client/initializers/container-debug-adapter', ['exports', 'ember-resolver/container-debug-adapter'], function (exports, _emberResolverContainerDebugAdapter) {
   exports['default'] = {
     name: 'container-debug-adapter',
 
@@ -2154,7 +2879,7 @@ define('wember_client/initializers/container-debug-adapter', ['exports', 'ember-
     }
   };
 });
-define('wember_client/initializers/data-adapter', ['exports', 'ember'], function (exports, _ember) {
+define('yamba_client/initializers/data-adapter', ['exports', 'ember'], function (exports, _ember) {
 
   /*
     This initializer is here to keep backwards compatibility with code depending
@@ -2169,7 +2894,7 @@ define('wember_client/initializers/data-adapter', ['exports', 'ember'], function
     initialize: _ember['default'].K
   };
 });
-define('wember_client/initializers/ember-data', ['exports', 'ember-data/setup-container', 'ember-data/-private/core'], function (exports, _emberDataSetupContainer, _emberDataPrivateCore) {
+define('yamba_client/initializers/ember-data', ['exports', 'ember-data/setup-container', 'ember-data/-private/core'], function (exports, _emberDataSetupContainer, _emberDataPrivateCore) {
 
   /*
   
@@ -2208,12 +2933,12 @@ define('wember_client/initializers/ember-data', ['exports', 'ember-data/setup-co
     initialize: _emberDataSetupContainer['default']
   };
 });
-define('wember_client/initializers/export-application-global', ['exports', 'ember', 'wember_client/config/environment'], function (exports, _ember, _wember_clientConfigEnvironment) {
+define('yamba_client/initializers/export-application-global', ['exports', 'ember', 'yamba_client/config/environment'], function (exports, _ember, _yamba_clientConfigEnvironment) {
   exports.initialize = initialize;
 
   function initialize() {
     var application = arguments[1] || arguments[0];
-    if (_wember_clientConfigEnvironment['default'].exportApplicationGlobal !== false) {
+    if (_yamba_clientConfigEnvironment['default'].exportApplicationGlobal !== false) {
       var theGlobal;
       if (typeof window !== 'undefined') {
         theGlobal = window;
@@ -2226,13 +2951,13 @@ define('wember_client/initializers/export-application-global', ['exports', 'embe
         return;
       }
 
-      var value = _wember_clientConfigEnvironment['default'].exportApplicationGlobal;
+      var value = _yamba_clientConfigEnvironment['default'].exportApplicationGlobal;
       var globalName;
 
       if (typeof value === 'string') {
         globalName = value;
       } else {
-        globalName = _ember['default'].String.classify(_wember_clientConfigEnvironment['default'].modulePrefix);
+        globalName = _ember['default'].String.classify(_yamba_clientConfigEnvironment['default'].modulePrefix);
       }
 
       if (!theGlobal[globalName]) {
@@ -2254,7 +2979,7 @@ define('wember_client/initializers/export-application-global', ['exports', 'embe
     initialize: initialize
   };
 });
-define('wember_client/initializers/flash-messages', ['exports', 'ember', 'wember_client/config/environment'], function (exports, _ember, _wember_clientConfigEnvironment) {
+define('yamba_client/initializers/flash-messages', ['exports', 'ember', 'yamba_client/config/environment'], function (exports, _ember, _yamba_clientConfigEnvironment) {
   exports.initialize = initialize;
   var merge = _ember['default'].merge;
   var deprecate = _ember['default'].deprecate;
@@ -2275,7 +3000,7 @@ define('wember_client/initializers/flash-messages', ['exports', 'ember', 'wember
   function initialize() {
     var application = arguments[1] || arguments[0];
 
-    var _ref = _wember_clientConfigEnvironment['default'] || {};
+    var _ref = _yamba_clientConfigEnvironment['default'] || {};
 
     var flashMessageDefaults = _ref.flashMessageDefaults;
 
@@ -2304,7 +3029,7 @@ define('wember_client/initializers/flash-messages', ['exports', 'ember', 'wember
     initialize: initialize
   };
 });
-define('wember_client/initializers/injectStore', ['exports', 'ember'], function (exports, _ember) {
+define('yamba_client/initializers/injectStore', ['exports', 'ember'], function (exports, _ember) {
 
   /*
     This initializer is here to keep backwards compatibility with code depending
@@ -2319,7 +3044,7 @@ define('wember_client/initializers/injectStore', ['exports', 'ember'], function 
     initialize: _ember['default'].K
   };
 });
-define('wember_client/initializers/local-storage-adapter', ['exports', 'ember-local-storage/initializers/local-storage-adapter'], function (exports, _emberLocalStorageInitializersLocalStorageAdapter) {
+define('yamba_client/initializers/local-storage-adapter', ['exports', 'ember-local-storage/initializers/local-storage-adapter'], function (exports, _emberLocalStorageInitializersLocalStorageAdapter) {
   Object.defineProperty(exports, 'default', {
     enumerable: true,
     get: function get() {
@@ -2333,7 +3058,7 @@ define('wember_client/initializers/local-storage-adapter', ['exports', 'ember-lo
     }
   });
 });
-define('wember_client/initializers/store', ['exports', 'ember'], function (exports, _ember) {
+define('yamba_client/initializers/store', ['exports', 'ember'], function (exports, _ember) {
 
   /*
     This initializer is here to keep backwards compatibility with code depending
@@ -2348,7 +3073,7 @@ define('wember_client/initializers/store', ['exports', 'ember'], function (expor
     initialize: _ember['default'].K
   };
 });
-define('wember_client/initializers/text-field', ['exports', 'ember'], function (exports, _ember) {
+define('yamba_client/initializers/text-field', ['exports', 'ember'], function (exports, _ember) {
   exports.initialize = initialize;
 
   function initialize() {
@@ -2362,7 +3087,7 @@ define('wember_client/initializers/text-field', ['exports', 'ember'], function (
     initialize: initialize
   };
 });
-define('wember_client/initializers/transforms', ['exports', 'ember'], function (exports, _ember) {
+define('yamba_client/initializers/transforms', ['exports', 'ember'], function (exports, _ember) {
 
   /*
     This initializer is here to keep backwards compatibility with code depending
@@ -2377,13 +3102,13 @@ define('wember_client/initializers/transforms', ['exports', 'ember'], function (
     initialize: _ember['default'].K
   };
 });
-define("wember_client/instance-initializers/ember-data", ["exports", "ember-data/-private/instance-initializers/initialize-store-service"], function (exports, _emberDataPrivateInstanceInitializersInitializeStoreService) {
+define("yamba_client/instance-initializers/ember-data", ["exports", "ember-data/-private/instance-initializers/initialize-store-service"], function (exports, _emberDataPrivateInstanceInitializersInitializeStoreService) {
   exports["default"] = {
     name: "ember-data",
     initialize: _emberDataPrivateInstanceInitializersInitializeStoreService["default"]
   };
 });
-define('wember_client/page/model', ['exports', 'ember-data'], function (exports, _emberData) {
+define('yamba_client/page/model', ['exports', 'ember-data'], function (exports, _emberData) {
   exports['default'] = _emberData['default'].Model.extend({
     title: _emberData['default'].attr('string'),
     body: _emberData['default'].attr('string'),
@@ -2394,14 +3119,14 @@ define('wember_client/page/model', ['exports', 'ember-data'], function (exports,
     server: _emberData['default'].belongsTo('server')
   });
 });
-define('wember_client/page/route', ['exports', 'ember'], function (exports, _ember) {
+define('yamba_client/page/route', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Route.extend({
     model: function model(params) {
       return this.get('store').findRecord('page', params.page_id);
     }
   });
 });
-define("wember_client/page/template", ["exports"], function (exports) {
+define("yamba_client/page/template", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
@@ -2417,7 +3142,7 @@ define("wember_client/page/template", ["exports"], function (exports) {
             "column": 0
           }
         },
-        "moduleName": "wember_client/page/template.hbs"
+        "moduleName": "yamba_client/page/template.hbs"
       },
       isEmpty: false,
       arity: 0,
@@ -2443,13 +3168,13 @@ define("wember_client/page/template", ["exports"], function (exports) {
     };
   })());
 });
-define('wember_client/resolver', ['exports', 'ember-resolver'], function (exports, _emberResolver) {
+define('yamba_client/resolver', ['exports', 'ember-resolver'], function (exports, _emberResolver) {
   exports['default'] = _emberResolver['default'];
 });
-define('wember_client/router', ['exports', 'ember', 'wember_client/config/environment'], function (exports, _ember, _wember_clientConfigEnvironment) {
+define('yamba_client/router', ['exports', 'ember', 'yamba_client/config/environment'], function (exports, _ember, _yamba_clientConfigEnvironment) {
 
   var Router = _ember['default'].Router.extend({
-    location: _wember_clientConfigEnvironment['default'].locationType
+    location: _yamba_clientConfigEnvironment['default'].locationType
   });
 
   Router.map(function () {
@@ -2468,7 +3193,7 @@ define('wember_client/router', ['exports', 'ember', 'wember_client/config/enviro
 
   exports['default'] = Router;
 });
-define('wember_client/server/edit/route', ['exports', 'ember'], function (exports, _ember) {
+define('yamba_client/server/edit/route', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Route.extend({
     model: function model(params) {
       return this.get('store').findRecord('server', params.server_id);
@@ -2485,7 +3210,7 @@ define('wember_client/server/edit/route', ['exports', 'ember'], function (export
     }
   });
 });
-define("wember_client/server/edit/template", ["exports"], function (exports) {
+define("yamba_client/server/edit/template", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
@@ -2501,7 +3226,7 @@ define("wember_client/server/edit/template", ["exports"], function (exports) {
             "column": 0
           }
         },
-        "moduleName": "wember_client/server/edit/template.hbs"
+        "moduleName": "yamba_client/server/edit/template.hbs"
       },
       isEmpty: false,
       arity: 0,
@@ -2532,7 +3257,7 @@ define("wember_client/server/edit/template", ["exports"], function (exports) {
     };
   })());
 });
-define('wember_client/server/model', ['exports', 'ember-data'], function (exports, _emberData) {
+define('yamba_client/server/model', ['exports', 'ember-data'], function (exports, _emberData) {
   exports['default'] = _emberData['default'].Model.extend({
     name: _emberData['default'].attr('string'),
     user: _emberData['default'].attr(),
@@ -2540,7 +3265,7 @@ define('wember_client/server/model', ['exports', 'ember-data'], function (export
     pages: _emberData['default'].hasMany('page')
   });
 });
-define('wember_client/server/route', ['exports', 'ember'], function (exports, _ember) {
+define('yamba_client/server/route', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Route.extend({
     uploads: _ember['default'].inject.service(),
     model: function model(params) {
@@ -2569,7 +3294,7 @@ define('wember_client/server/route', ['exports', 'ember'], function (exports, _e
     }
   });
 });
-define("wember_client/server/template", ["exports"], function (exports) {
+define("yamba_client/server/template", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
@@ -2585,7 +3310,7 @@ define("wember_client/server/template", ["exports"], function (exports) {
             "column": 0
           }
         },
-        "moduleName": "wember_client/server/template.hbs"
+        "moduleName": "yamba_client/server/template.hbs"
       },
       isEmpty: false,
       arity: 0,
@@ -2616,7 +3341,7 @@ define("wember_client/server/template", ["exports"], function (exports) {
     };
   })());
 });
-define('wember_client/servers/route', ['exports', 'ember'], function (exports, _ember) {
+define('yamba_client/servers/route', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Route.extend({
     model: function model() {
       return this.get('store').findAll('server');
@@ -2638,7 +3363,7 @@ define('wember_client/servers/route', ['exports', 'ember'], function (exports, _
     }
   });
 });
-define("wember_client/servers/template", ["exports"], function (exports) {
+define("yamba_client/servers/template", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     var child0 = (function () {
       return {
@@ -2655,7 +3380,7 @@ define("wember_client/servers/template", ["exports"], function (exports) {
               "column": 0
             }
           },
-          "moduleName": "wember_client/servers/template.hbs"
+          "moduleName": "yamba_client/servers/template.hbs"
         },
         isEmpty: false,
         arity: 1,
@@ -2695,7 +3420,7 @@ define("wember_client/servers/template", ["exports"], function (exports) {
             "column": 0
           }
         },
-        "moduleName": "wember_client/servers/template.hbs"
+        "moduleName": "yamba_client/servers/template.hbs"
       },
       isEmpty: false,
       arity: 0,
@@ -2737,7 +3462,7 @@ define("wember_client/servers/template", ["exports"], function (exports) {
     };
   })());
 });
-define('wember_client/services/ajax', ['exports', 'ember-ajax/services/ajax'], function (exports, _emberAjaxServicesAjax) {
+define('yamba_client/services/ajax', ['exports', 'ember-ajax/services/ajax'], function (exports, _emberAjaxServicesAjax) {
   Object.defineProperty(exports, 'default', {
     enumerable: true,
     get: function get() {
@@ -2745,7 +3470,7 @@ define('wember_client/services/ajax', ['exports', 'ember-ajax/services/ajax'], f
     }
   });
 });
-define('wember_client/services/flash-messages', ['exports', 'ember-cli-flash/services/flash-messages'], function (exports, _emberCliFlashServicesFlashMessages) {
+define('yamba_client/services/flash-messages', ['exports', 'ember-cli-flash/services/flash-messages'], function (exports, _emberCliFlashServicesFlashMessages) {
   Object.defineProperty(exports, 'default', {
     enumerable: true,
     get: function get() {
@@ -2753,7 +3478,7 @@ define('wember_client/services/flash-messages', ['exports', 'ember-cli-flash/ser
     }
   });
 });
-define('wember_client/sign-in/route', ['exports', 'ember'], function (exports, _ember) {
+define('yamba_client/sign-in/route', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Route.extend({
     auth: _ember['default'].inject.service(),
     flashMessages: _ember['default'].inject.service(),
@@ -2773,7 +3498,7 @@ define('wember_client/sign-in/route', ['exports', 'ember'], function (exports, _
     }
   });
 });
-define("wember_client/sign-in/template", ["exports"], function (exports) {
+define("yamba_client/sign-in/template", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
@@ -2789,7 +3514,7 @@ define("wember_client/sign-in/template", ["exports"], function (exports) {
             "column": 0
           }
         },
-        "moduleName": "wember_client/sign-in/template.hbs"
+        "moduleName": "yamba_client/sign-in/template.hbs"
       },
       isEmpty: false,
       arity: 0,
@@ -2820,7 +3545,7 @@ define("wember_client/sign-in/template", ["exports"], function (exports) {
     };
   })());
 });
-define('wember_client/sign-up/route', ['exports', 'ember'], function (exports, _ember) {
+define('yamba_client/sign-up/route', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Route.extend({
     auth: _ember['default'].inject.service(),
     flashMessages: _ember['default'].inject.service(),
@@ -2842,7 +3567,7 @@ define('wember_client/sign-up/route', ['exports', 'ember'], function (exports, _
     }
   });
 });
-define("wember_client/sign-up/template", ["exports"], function (exports) {
+define("yamba_client/sign-up/template", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
@@ -2858,7 +3583,7 @@ define("wember_client/sign-up/template", ["exports"], function (exports) {
             "column": 0
           }
         },
-        "moduleName": "wember_client/sign-up/template.hbs"
+        "moduleName": "yamba_client/sign-up/template.hbs"
       },
       isEmpty: false,
       arity: 0,
@@ -2889,7 +3614,7 @@ define("wember_client/sign-up/template", ["exports"], function (exports) {
     };
   })());
 });
-define('wember_client/uploads/service', ['exports', 'ember'], function (exports, _ember) {
+define('yamba_client/uploads/service', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Service.extend({
     ajax: _ember['default'].inject.service(),
 
@@ -2902,19 +3627,19 @@ define('wember_client/uploads/service', ['exports', 'ember'], function (exports,
     }
   });
 });
-define('wember_client/user/model', ['exports', 'ember-data'], function (exports, _emberData) {
+define('yamba_client/user/model', ['exports', 'ember-data'], function (exports, _emberData) {
   exports['default'] = _emberData['default'].Model.extend({
     email: _emberData['default'].attr('string')
   });
 });
-define('wember_client/users/route', ['exports', 'ember'], function (exports, _ember) {
+define('yamba_client/users/route', ['exports', 'ember'], function (exports, _ember) {
   exports['default'] = _ember['default'].Route.extend({
     model: function model() {
       return this.get('store').findAll('user');
     }
   });
 });
-define("wember_client/users/template", ["exports"], function (exports) {
+define("yamba_client/users/template", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     var child0 = (function () {
       return {
@@ -2931,7 +3656,7 @@ define("wember_client/users/template", ["exports"], function (exports) {
               "column": 0
             }
           },
-          "moduleName": "wember_client/users/template.hbs"
+          "moduleName": "yamba_client/users/template.hbs"
         },
         isEmpty: false,
         arity: 1,
@@ -2973,7 +3698,7 @@ define("wember_client/users/template", ["exports"], function (exports) {
             "column": 0
           }
         },
-        "moduleName": "wember_client/users/template.hbs"
+        "moduleName": "yamba_client/users/template.hbs"
       },
       isEmpty: false,
       arity: 0,
@@ -3016,8 +3741,8 @@ define("wember_client/users/template", ["exports"], function (exports) {
 
 /* jshint ignore:start */
 
-define('wember_client/config/environment', ['ember'], function(Ember) {
-  var prefix = 'wember_client';
+define('yamba_client/config/environment', ['ember'], function(Ember) {
+  var prefix = 'yamba_client';
 /* jshint ignore:start */
 
 try {
@@ -3044,8 +3769,8 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("wember_client/app")["default"].create({"name":"wember_client","version":"0.0.0+28a81cba"});
+  require("yamba_client/app")["default"].create({"name":"yamba_client","version":"0.0.0+20e4485c"});
 }
 
 /* jshint ignore:end */
-//# sourceMappingURL=wember_client.map
+//# sourceMappingURL=yamba_client.map
